@@ -15,8 +15,11 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @Controller
 public class MovieController {
 
-//	@Autowired(required = false)
-//	private MovieService ms;
+	private MovieService ms;
+	
+	private MovieController(MovieService ms) {
+		this.ms = ms;
+	}
 	
 //	@RequestMapping(value="/movie/movie_list", method = {GET,POST})
 //	public String movieList(SearchVO sVO, 

@@ -11,7 +11,7 @@
 	position: absolute;
 	top: 50px;
 } */
-.nav-link a:link {
+.nav-link li {
 	color: #8C3434;	
 }
 /* #container{

@@ -21,16 +21,16 @@ $(function(){
 					<a class="nav-link d-flex align-items-center gap-2" href="#" style="color: #8C3434;">대시보드</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link d-flex align-items-center gap-2" href="#">회원관리</a>
+					<a class="nav-link d-flex align-items-center gap-2" href="#" style="color: #8C3434;">회원관리</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link d-flex align-items-center gap-2" href="#void">영화관리</a>
+					<a class="nav-link d-flex align-items-center gap-2" href="#void" style="color: #8C3434;">영화관리</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link d-flex align-items-center gap-2" href="#">예매관리</a>
+					<a class="nav-link d-flex align-items-center gap-2" href="#" style="color: #8C3434;">예매관리</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link d-flex align-items-center gap-2" href="#" onclick="location.href='/login/logout';">로그아웃</a>
+					<a class="nav-link d-flex align-items-center gap-2" href="#" onclick="location.href='/login/logout';" style="color: #8C3434;">로그아웃</a>
 				</li>
 			</ul>
 		</div>

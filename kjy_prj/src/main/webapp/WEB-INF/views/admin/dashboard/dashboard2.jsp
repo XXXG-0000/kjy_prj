@@ -1,3 +1,5 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     info="관리자 - 대시보드"
@@ -79,6 +81,9 @@ span{
 .swiper-button-next, .swiper-button-prev {
 	color: #f0f0f0;
 }
+.row {
+	height: 400px;
+}
 </style>
 
 </head>
@@ -95,7 +100,7 @@ span{
 
 	<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 		<!-- d3.js를 이용해 차트 생성 -->
-		<div id="dashContainer">
+		<%-- <div id="dashContainer">
 			<h6>대시보드</h6>
 			<div id="reserbationContainer">
 			일일예매건수
@@ -105,7 +110,34 @@ span{
 			<div id="memberContainer">
 			일일신규&탈퇴회원
 			</div>
-		</div>
+		</div> --%>
+			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group me-1">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="exportBtn" name="exportBtn">추출</button>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1">
+                        <i class="bi bi-calendar-date"></i>
+                        <%
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                            Date date = new Date();
+                            out.print(sdf.format(date));
+                        %>
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="chart-container">
+                        <canvas id="chart1"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="chart-container">
+                        <canvas id="chart2"></canvas>
+                    </div>
+                </div>
+            </div>
 		
 			<!-- swipe slider를 이용해 상영중인 영화 나열 -->
 		<div id="screenMovieContainer">
@@ -168,8 +200,8 @@ span{
 					</div>
 				</div>
 				<!-- 이전, 다음 버튼 (필요한 경우) -->
-				<div class="swiper-button-next"></div>
-				<div class="swiper-button-prev"></div>
+				<!-- <div class="swiper-button-next"></div>
+				<div class="swiper-button-prev"></div> -->
 			</div>
 			<script type="text/javascript">
 			var swiper = new Swiper(".swiper-container", {
