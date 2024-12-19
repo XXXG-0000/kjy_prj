@@ -15,7 +15,7 @@ public class JoinController {
     @GetMapping("/join")
     public String joinFrm() {
 
-        return "user/join/join_page";
+        return "member/join/join_page";
 
     }
 

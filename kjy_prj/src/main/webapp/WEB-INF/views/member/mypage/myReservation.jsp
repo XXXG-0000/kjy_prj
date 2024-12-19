@@ -31,7 +31,7 @@
 <body>
 <div id="wrap"
      style="min-height: 1400px;  margin-top: 50px; display: flex; flex-direction: column; align-items: center; ">
-    <jsp:include page="/WEB-INF/views/user/common/header.jsp"/>
+    <jsp:include page="/WEB-INF/views/member/common/header.jsp"/>
     <div id="mycgv-content"
          style=" width: 80%; height: 450px; display: flex; flex-direction: column; align-items: center; ">
         <div id="detail"
@@ -176,6 +176,6 @@
         </div>
     </div>
 </div>
-<jsp:include page="/WEB-INF/views/user/common/footer.jsp"/>
+<jsp:include page="/WEB-INF/views/member/common/footer.jsp"/>
 </body>
 </html>

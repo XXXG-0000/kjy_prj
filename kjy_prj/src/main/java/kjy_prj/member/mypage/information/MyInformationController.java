@@ -18,16 +18,16 @@ public class MyInformationController {
 
     @GetMapping("myInformation")
     public String myInformation(Model model) {
-        return "user/mypage/information/myInformation";
+        return "member/mypage/information/myInformation";
     }
 
     @GetMapping("retired")
     public String retired(Model model) {
-        return "user/mypage/information/retired";
+        return "member/mypage/information/retired";
     }
 
     @GetMapping("modifyPass")
     public String modifyPass(Model model) {
-        return "user/mypage/information/modifyPass";
+        return "memeber/mypage/information/modifyPass";
     }
 } // MyInformationController 끝 

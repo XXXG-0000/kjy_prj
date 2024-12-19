@@ -19,7 +19,7 @@
 <body>
 <div id="wrap"
      style="min-height: 1200px;  margin-top: 50px; display: flex; flex-direction: column; align-items: center;">
-    <jsp:include page="/WEB-INF/views/user/common/header.jsp"/>
+    <jsp:include page="/WEB-INF/views/member/common/header.jsp"/>
     <div style="width: 80%; height: 1000px; display: flex; flex-direction: column; align-items: center;">
         <div style="width: 70%; height: 80%;">
             <div style="width: 20%; height: 100%; float: left">
@@ -110,6 +110,6 @@
         </div>
     </div>
 </div>
-<jsp:include page="/WEB-INF/views/user/common/footer.jsp"/>
+<jsp:include page="/WEB-INF/views/member/common/footer.jsp"/>
 </body>
 </html>

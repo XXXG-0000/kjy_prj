@@ -41,7 +41,7 @@
 <body>
 <div id="wrap"
      style="min-height: 900px;  margin-top: 50px; display: flex; flex-direction: column; align-items: center  ">
-    <jsp:include page="/WEB-INF/views/user/common/header.jsp"/>
+    <jsp:include page="/WEB-INF/views/member/common/header.jsp"/>
     <form action="/" name="" id="" method="post" style="width: 550px">
         <div style="text-align: center; margin: 30px 30px 30px 30px">
             <h1 style="font-size: 50px">회원가입</h1>
@@ -131,6 +131,6 @@
 
     </form>
 </div>
-<jsp:include page="/WEB-INF/views/user/common/footer.jsp"/>
+<jsp:include page="/WEB-INF/views/member/common/footer.jsp"/>
 </body>
 </html>

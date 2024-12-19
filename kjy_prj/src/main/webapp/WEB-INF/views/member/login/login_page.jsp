@@ -21,7 +21,7 @@
 <body>
 <div id="wrap"
      style="min-height: 400px;  margin-top: 50px; display: flex; flex-direction: column; align-items: center; ">
-    <jsp:include page="/WEB-INF/views/user/common/header.jsp"/>
+    <jsp:include page="/WEB-INF/views/member/common/header.jsp"/>
     <h1 style="font-size: 50px; margin: 30px 30px -50px 30px">로그인</h1>
     <div class="wrap-login">
         <div class="sect-login">
@@ -38,7 +38,7 @@
             </ul>
             <div class="box-login">
                 <h3 class="hidden">회원 로그인</h3>
-                <form id="form1" method="post" action="#" >
+                <form id="form1" method="post" action="#">
                     <fieldset>
                         <legend>회원 로그인</legend>
                         <p>아이디 비밀번호를 입력하신 후, 로그인 버튼을 클릭해 주세요.</p>
@@ -53,7 +53,7 @@
                         </div>
                         <button type="submit" id="submit" title="로그인"><span>로그인</span></button>
                         <div class="login-option">
-                            <a href="" >아이디 찾기</a>
+                            <a href="">아이디 찾기</a>
                             <a href="">비밀번호 찾기</a>
 
                         </div>
@@ -67,6 +67,6 @@
         </div>
     </div>
 </div>
-<jsp:include page="/WEB-INF/views/user/common/footer.jsp"/>
+<jsp:include page="/WEB-INF/views/member/common/footer.jsp"/>
 </body>
 </html>
