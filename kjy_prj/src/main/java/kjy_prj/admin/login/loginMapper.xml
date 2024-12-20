@@ -4,10 +4,10 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kjy_prj.admin.login">
 
-<select id="loginAdmin" parameterType="loginVO" resultType="loginDomain">
+<select id="selectAdmin" parameterType="loginVO" resultType="loginDomain">
 select admin_id, password
 from admin
-where admin_id = #{ admin_id } and password = #{ password }
+where admin_id = #{ admin_id }
 </select>
 
 </mapper>

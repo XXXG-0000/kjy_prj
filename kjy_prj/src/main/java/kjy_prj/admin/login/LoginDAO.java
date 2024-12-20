@@ -26,15 +26,11 @@ public class LoginDAO {
 		System.out.println("-----------------DAO: " + lVO);
 
 		try {
-			ld = handler.selectOne("kjy_prj.admin.login.loginAdmin", lVO);
-			
-			
+			ld = handler.selectOne("kjy_prj.admin.login.selectAdmin", lVO);
 		} finally {
 			mbh.closeHandler(handler);
 		}//end handler
-		System.out.println("DAO: " + ld);
-		//System.out.println("DAO: " + lDomain.getAdmin_id());
-		//System.out.println("DAO: " + lDomain.getPassword());
+		//System.out.println("DAO: " + ld);
 		
 		return ld;
 	}//selectManager

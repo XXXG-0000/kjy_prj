@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpSession;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
-@SessionAttributes("userinfo")
+@SessionAttributes("userinfo") //session 추가
 @Controller
 public class LoginController {
 
@@ -27,18 +27,11 @@ public class LoginController {
 	public String loginProcess(LoginVO lVO, Model model) {
 		LoginDomain ld = ls.searchAdmin(lVO);
 		System.out.println("Controller:-------------- " + ld);
-		//String path = "redirect:/";
 		String path = "admin/login/loginResult";
-		//String path = "admin/dashboard/dashboard";
-		//String msg = "로그인 실패...";
 		
-		/*if(ld != null) { // 로그인 성공시
-			msg = "로그인 성공!";
-			path = "admin/login/loginResult";
-			model.addAttribute("userInfo", ld);
-		}*/
-		//System.out.println(msg);
-		model.addAttribute("userinfo", ld);
+		if( !ld.getPassword().isEmpty() && ld != null ) {
+			model.addAttribute("userinfo", ld);
+		}
 		
 		return path;
 	}
