@@ -15,31 +15,34 @@ public class LoginService {
 	private LoginDAO lDAO;
 	
 	public LoginDomain searchAdmin(LoginVO lVO) {
-		LoginDomain lDomain = null;
+		LoginDomain ld = null;
+		LoginDomain chkDomain = null;
 		System.out.println("service: " + lVO);
 		
 		LoginDAO lDAO = LoginDAO.getInstance();
-		//객체 생성
-		PasswordEncoder pe = new BCryptPasswordEncoder();
 		try {
-			//일방향 해시
-			lVO.setPassword(pe.encode(lVO.getPassword()));
-			
-			//암호화 객체 얻기
-			String key = "sist1234";
-			String salt = "4921328295";
-			TextEncryptor te = Encryptors.text(key, salt);
-			//아이디 암호화
-			lVO.setAdmin_id(te.decrypt(lVO.getAdmin_id()));
-			System.out.println(lVO.getAdmin_id());
-			
-			lVO.setPassword(salt);
-			lDomain = lDAO.selectAdmin(lVO);
+			System.out.println(lVO);
+			ld = lDAO.selectAdmin(lVO);
 		} catch(PersistenceException p) {
 			p.printStackTrace();
 		}//end catch
+
+		//객체 생성
+		PasswordEncoder pe = new BCryptPasswordEncoder();
+		//비밀번호 일치 확인
+		boolean flag = pe.matches(lVO.getPassword(), ld.getPassword());
+		System.out.println(flag);
 		
-		return lDomain;
+		if(flag) {//비밀번호가 일치할 경우
+			System.out.println("비밀번호가 일치합니다");
+		} else {
+			ld.setAdmin_id("");
+			ld.setPassword("");
+		}//end else
+		
+		//System.out.println("----------------service: " + ld);
+		
+		return ld;
 	}
 	
 }
