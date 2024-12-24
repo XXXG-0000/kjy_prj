@@ -88,6 +88,42 @@ span{
 	border-radius: 10px;
 	border: 1px solid #FFF;
 }
+.state_td{
+	display: flex; justify-content: center; align-items: center;
+}
+.moviestate_ready{
+	width: 90px; height: 30px; 
+	background-color: orange; 
+	border-radius: 5px; color: #FFF; 
+	display: flex; justify-content: center; 
+	align-items: center;
+}
+.moviestate_active{
+	width: 90px; height: 30px; 
+	background-color: green; 
+	border-radius: 5px; color: #FFF; 
+	display: flex; justify-content: center; 
+	align-items: center;
+}
+.moviestate_end{
+	width: 90px; height: 30px; 
+	background-color: gray; 
+	border-radius: 5px; color: #FFF; 
+	display: flex; justify-content: center; 
+	align-items: center;
+}
+.plus_btn {
+	/* width: 200px; height: 100px; */
+	border:none; float: right; 
+    margin-left: 10px; border-radius: 20px; 
+    padding: 10px; background-color: #8C3434; color: #FFF;
+}
+.plus_btn:hover {
+	background-color: #802F2F; color: #FFF;
+}
+.plus_btn:active {
+	background-color: #802F2F; color: #FFF;
+}
 </style>
 
 </head>
@@ -95,6 +131,7 @@ span{
 
 <div id="wrap">
 <div id="header">
+<jsp:include page="../common/svg.jsp"/> <!-- svg -->
 <jsp:include page="../common/jsp/header.jsp"/>
 </div>
 
@@ -114,10 +151,10 @@ span{
 			일일신규&탈퇴회원
 			</div>
 		</div> -->
-		    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2"><strong>영화 관리</strong></h1>
-            </div>
-		<div id="coffeeList" style="width: 750px; margin: 0 auto;">
+		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        	<h1 class="h2"><strong>영화 관리</strong></h1>
+        </div>
+		<div id="movieList" style="width: 750px; margin: 0 auto;">
         <table class="table">
 		<thead>
 			<tr>
@@ -128,12 +165,47 @@ span{
 			</tr>
 		</thead>
 		<tbody>
+		<c:if test="${ empty listMovie }">
+		<tr>
+			<td style="text-align: center" colspan="4">
+			등록된 영화가 없습니다.<br>
+			</td>
+		</tr>
+		</c:if>
+		
+		<c:if test="${ not empty param.keyword }"> <!-- 파라메터 변수가 있을 경우 -->
+		<c:set var="searchParam" value="&field=${ param.field }&keyword=${ param.keyword }"/>
+		</c:if>
+		
+		<c:forEach var="md" items="${ listMovie }" varStatus="i">
+		<tr>
+			<td><c:out value="${ md.movie_num }"/></td>
+			<td><a href="/board/board_detail?movie_num=${ bVO.movie_num }&currentPage=${ currentPage }${ searchParam }">
+			<c:out value="${ md.title_k }"/></a></td>
+			<c:choose>
+				<c:when test="${ md.screening_f eq '0' }">
+				<td class="state_td">
+					<div class="moviestate_ready">상영 대기</div>
+				</td>
+				</c:when>
+				<c:when test="${ md.screening_f eq '1' }">
+				<td class="state_td">
+					<div class="moviestate_active">상영중</div>
+				</td>
+				</c:when>
+				<c:otherwise>
+				<td class="state_td">
+					<div class="moviestate_end">상영 종료</div>
+				</td>
+				</c:otherwise>
+			</c:choose>
+			<td style="text-align: center;"><input type="button" class="manage_screen" value="상영관리"/></td>
+		</tr>
+		</c:forEach>
+		
+		
 			<!-- 테이블 생성.. -->
-			<%--
-			<c:forEach var="movie" items="${  }" varStatus="i">
-			</c:forEach>
-			--%>
-			<tr>
+			<!-- <tr>
 				<td>00001</td>
 				<td><a href="#void">모아나2</a></td>
 				<td style="display: flex; justify-content: center; align-items: center;"><div class="movieState" style="width: 90px; height: 30px; background-color: orange; border-radius: 5px; color: #FFF; display: flex; justify-content: center; align-items: center;">상영대기</div></td>
@@ -150,7 +222,8 @@ span{
 				<td><a href="#void">모아나2</a></td>
 				<td style="display: flex; justify-content: center; align-items: center;"><div class="movieState" style="width: 90px; height: 30px; background-color: gray; border-radius: 5px; color: #FFF; display: flex; justify-content: center; align-items: center;">상영종료</div></td>
 				<td style="text-align: center;"><input type="button" class="manage_screen" value="상영관리"/></td>
-			</tr>
+			</tr> -->
+		 
 		</tbody>
 		</table>
         <!-- search -->
@@ -168,18 +241,21 @@ span{
 		<!-- search end -->
 		<!-- pagination -->
 		<ul class="pagination justify-content-center">
-		<%-- <% sVO.setUrl("selectCoffeeList.jsp"); %>
-		<%= new ProductUtil().pagination(sVO) %> --%>
+		<c:out value="${ pagiNation }" escapeXml="false"/>
 		</ul>
 		<!-- pagination end -->
         </div>
-			<c:set var="loginFlag" value="javascript:loginMove()"/>
-			<c:if test="${ not empty managerId }">
-			<c:set var="loginFlag" value="insertDrink.jsp"/>
+			<c:set var="loginFlag" value="location.href='/admin';"/>
+			<c:if test="${ not empty userinfo }">
+			<c:set var="loginFlag" value="location.href='/admin/movie/insert_movie';"/>
 			</c:if>
-        	<input type="button" class="btn" style="border:none; float: right; 
+			<button class="plus_btn" style="border:none; float: right; margin-left: 10px; border-radius: 20px; padding: 10px;">
+        		<a href="#" onclick="${ loginFlag }" style="color:#FFF; font-weight: bold; text-decoration: none;">
+        		<svg class="bi" width="20" height="20"><use xlink:href="#plus-circle"/></svg> 영화 추가</a>
+        	</button>
+        	<!-- <input type="button" class="btn" style="border:none; float: right; 
         	margin-left: 10px; border-radius: 20px; padding: 10px; background-color: #8C3434; color: #FFF;" 
-        	value="영화 추가">
+        	value="영화 추가"> -->
         	<canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
 	</main>
 			<!-- swipe slider를 이용해 상영중인 영화 나열 -->
@@ -189,6 +265,8 @@ span{
 
 
 </div>
+<script src="bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
+<script src="chart.umd.js" integrity="sha384-eI7PSr3L1XLISH8JdDII5YN/njoSsxfbrkCTnJrzXt+ENP5MOVBxD+l6sEG4zoLp" crossorigin="anonymous"></script><script src="dashboard.js"></script>
 </body>
 </html>

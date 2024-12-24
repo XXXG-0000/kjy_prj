@@ -8,9 +8,25 @@
   	<setting name="jdbcTypeForNull" value="NULL" />
   </settings> -->
 <typeAliases>
-	<typeAlias type="kjy_prj.admin.login.LoginDomain" alias="loginDomain"/>
-	<typeAlias type="kjy_prj.admin.login.LoginVO" alias="loginVO"/>
-	<typeAlias type="kjy_prj.admin.movie.SearchVO" alias="searchVO"/>
+	<!-- 관리자 로그인 관리 VO, Domain -->
+	<typeAlias type="kr.co.sist.admin.login.LoginDomain" alias="loginDomain"/>
+	<typeAlias type="kr.co.sist.admin.login.LoginVO" alias="loginVO"/>
+	
+	<!-- 관리자 영화 관리 VO, Domain -->
+	<typeAlias type="kr.co.sist.admin.movie.MovieDomain" alias="movieDomain"/>
+	<typeAlias type="kr.co.sist.admin.movie.MovieVO" alias="movieVO"/>
+	<typeAlias type="kr.co.sist.admin.movie.SearchVO" alias="searchVO"/>
+	
+	<!-- 관리자 회원관리 VO, Domain -->
+	<typeAlias type="kr.co.sist.admin.member.AdminMemberDomain" alias="adminMemberDomain"/>
+	<typeAlias type="kr.co.sist.admin.member.AdminMemberVO" alias="adminMemberVO"/>
+	<typeAlias type="kr.co.sist.admin.member.AdminMemberSearchVO" alias="adminMemberSearchVO"/>
+	
+	<!-- 관리자 예매관리 VO, Domain -->
+	<typeAlias type="kr.co.sist.admin.reservation.AdminReservationDomain" alias="adminReservationDomain"/>
+	<typeAlias type="kr.co.sist.admin.reservation.AdminReservationVO" alias="adminReservationVO"/>
+	<typeAlias type="kr.co.sist.admin.reservation.AdminReservationSearchVO" alias="adminReservationSearchVO"/>
+
 </typeAliases>
   <environments default="development">
     <environment id="development">
@@ -24,7 +40,9 @@
     </environment>
   </environments>
   <mappers>
-    <mapper resource="kjy_prj/admin/login/loginMapper.xml"/>
-    <!-- <mapper resource="kjy_prj/admin/movie/movieMapper.xml"/> -->
+    <mapper resource="kr/co/sist/admin/login/loginMapper.xml"/>
+	<mapper resource="kr/co/sist/admin/member/adminMemberMapper.xml"/>
+    <mapper resource="kr/co/sist/admin/movie/movieMapper.xml"/>
+    <mapper resource="kr/co/sist/admin/reservation/adminReservationMapper.xml"/>
   </mappers>
 </configuration>

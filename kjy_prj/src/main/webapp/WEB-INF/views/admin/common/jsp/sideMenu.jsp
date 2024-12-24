@@ -3,14 +3,16 @@
     info="공통디자인 - 메뉴" %>
     
 <!-- dashboard.js 삽입-->
-<script src="../common/js/menu.js"></script>
+<!-- <script src="../common/js/menu.js"></script> -->
     
 <script type="text/javascript">
 $(function(){
+	/*
 	$("#sideMenu ul li").click(function() {
 		$("#sideMenu ul li").removeClass('on');
 		$(this).addClass('on');
 	});//sideMenubar ul li - click
+	*/
 });//ready() 
 </script>
 <div id="sideMenu" class="border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary">
@@ -24,7 +26,7 @@ $(function(){
 					<a class="nav-link d-flex align-items-center gap-2" href="#" style="color: #8C3434;">회원관리</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link d-flex align-items-center gap-2" href="#void" style="color: #8C3434;">영화관리</a>
+					<a class="nav-link d-flex align-items-center gap-2" href="#void" onclick="location.href='/admin/movie/movie_list';" style="color: #8C3434;">영화관리</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link d-flex align-items-center gap-2" href="#" style="color: #8C3434;">예매관리</a>
