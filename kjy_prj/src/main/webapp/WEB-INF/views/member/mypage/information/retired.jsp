@@ -23,8 +23,21 @@
             font-size: inherit; /* hover 상태에서 크기 변화 없음 */
         }
     </style>
+    <script type="text/javascript">
+        $(function () {
+            $("#current").html(${sessionScope.myMovieView});
+            $("#allMovie").html(${sessionScope.myAllView});
 
-
+            $("#retireBtn").click(function () {
+                //TODO 추후 BL도 추가할 예정
+                if (confirm("정말로 [KJY] 해택을 포기하고, 회원을 탈퇴하시겠습니까?")) {
+                    alert("탈퇴되셨습니다.");
+                    location.href = "/logout";
+                }
+                location.href = "/myPage";
+            });
+        });
+    </script>
 </head>
 <body>
 <div id="wrap"
@@ -34,17 +47,17 @@
          style=" width: 80%; height: 450px; display: flex; flex-direction: column; align-items: center; ">
         <div id="detail"
              style="height: 450px; width: 80%; display: flex; flex-direction: column; align-items: center; background-color: #F8F8F8; border-bottom: 1px solid #e8e8e8;">
-
             <div style="height: 200px; width: 80%; ">
-                <img src="http://localhost/images/basic.png" class="profile-image" alt=""
+                <img src="/upload/${sessionScope.memberInfo.profile}" class="profile-image" alt=""
                      style="width: 135px; padding: 10px; height: 135px; float: left">
-
-                <h2 style="font-size: 45px; float: left; margin-top: 50px">정미영님</h2>
+                <h2 style="font-size: 45px; float: left; margin-top: 50px"><c:out value="${sessionScope.memberInfo.name}"/>님 </h2>
                 <p></p>
-                <p style="font-size: 25px; float: left; margin-top: 55px; margin-left: 20px">mimi</p>
-                <p style="font-size: 20px; float: left; margin-top: 55px; margin-left: 20px">닉네임 : 닉네임을 설정해주세요. </p>
+                <c:if test="${empty sessionScope.memberInfo.nickname}">
+                    <p style="font-size: 20px; float: left; margin-top: 55px; margin-left: 20px">닉네임 : 닉네임을 설정해주세요. </p>
+                </c:if>
+                <p style="font-size: 25px; float: left; margin-top: 55px; margin-left: 20px"><c:out value="닉네임 : ${sessionScope.memberInfo.nickname}"/></p>
                 <img src="http://localhost/images/pen.png" alt=""
-                     style="width: 25px; height: 25px; margin-top: 50px; margin-left: 5px; border-bottom: 2px solid #222222">
+                     style="width: 25px; height: 25px; margin-top: 50px; margin-left: 10px; border-bottom: 2px solid #222222; cursor: pointer" onclick="location.href='/myPage/information/myInformation'">
             </div>
             <div style=" height: 250px; width: 80%; display: flex; flex-direction: column; align-items: center; ">
 
@@ -52,8 +65,8 @@
                     <div style="text-align: center">
                         <span style="color: #1c1c16; font-size: 35px; display: block; margin-top: 30px; ">MY MOVIE LIST</span>
                         <span style="color: #1c1c16; font-size: 25px; display: block; margin-top: 20px; margin-left: 20px; ">CGV VIP 도전하세요!</span>
-                        <span style="color: #1c1c16; font-size: 20px; display: block; margin-top: 20px; margin-left: 20px; ">현재 예매한 영화: 0개</span>
-                        <span style="color: #1c1c16; font-size: 20px; display: block; margin-top: 20px; margin-left: 20px; ">영화관람 횟수: 0번</span>
+                        <span style="color: #1c1c16; font-size: 20px; display: block; margin-top: 20px; margin-left: 20px; ">현재 예매한 영화: <span id="current"></span>개</span>
+                        <span style="color: #1c1c16; font-size: 20px; display: block; margin-top: 20px; margin-left: 20px; ">영화관람 횟수: <span id="allMovie"></span>번</span>
                     </div>
                 </div>
             </div>
@@ -93,7 +106,7 @@
                             </div>
                             <div>
                                 <div class="cancel-button">
-                                    <button type="button" style="padding-left: -10px"><span>탈퇴</span></button>
+                                    <button type="button" style="padding-left: -10px" id="retireBtn"><span>탈퇴</span></button>
                                 </div>
                             </div>
                         </div>

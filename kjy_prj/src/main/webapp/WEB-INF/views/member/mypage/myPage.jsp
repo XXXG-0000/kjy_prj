@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" info="" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -18,6 +19,22 @@
 
 
     <script type="text/javascript">
+        $(function () {
+
+            $.ajax({
+                url:"/myView",
+                dataType: "json",
+                type: "get",
+                error:function (xhr) {
+                    alert(xhr.status);
+                },
+                success: function (jsonObj) {
+                    $("#current").html(jsonObj.myMovieView);
+                    $("#allMovie").html(jsonObj.myAllView);
+                }
+            });
+        }); //ready
+
         function move(url) {
             if (url == 'movie_list') {
                 location.href = "http://localhost/myPage/movieList";
@@ -31,11 +48,11 @@
 
     </script>
     <style type="text/css">
-
         a:hover {
             font-size: inherit; /* hover 상태에서 크기 변화 없음 */
         }
     </style>
+
 
 </head>
 <body>
@@ -46,35 +63,47 @@
          style=" width: 80%; height: 450px; display: flex; flex-direction: column; align-items: center; ">
         <div id="detail"
              style="height: 450px; width: 80%; display: flex; flex-direction: column; align-items: center; background-color: #F8F8F8; border-bottom: 1px solid #e8e8e8;">
+            <c:if test="${'NA' eq not msg}">
+                <script>
+                    alert(${msg});
+                </script>
+            </c:if>
 
             <div style="height: 200px; width: 80%; ">
-                <img src="http://localhost/images/basic.png" class="profile-image" alt=""
+                <img src="/upload/${sessionScope.memberInfo.profile}" class="profile-image" alt=""
                      style="width: 135px; padding: 10px; height: 135px; float: left">
-                <h2 style="font-size: 45px; float: left; margin-top: 50px">정미영님</h2>
+                <h2 style="font-size: 45px; float: left; margin-top: 50px"><c:out
+                        value="${sessionScope.memberInfo.name}"/>님 </h2>
                 <p></p>
-                <p style="font-size: 25px; float: left; margin-top: 55px; margin-left: 20px">mimi</p>
-                <p style="font-size: 20px; float: left; margin-top: 55px; margin-left: 20px">닉네임 : 닉네임을 설정해주세요. </p>
+                <c:if test="${empty sessionScope.memberInfo.nickname}">
+                    <p style="font-size: 20px; float: left; margin-top: 55px; margin-left: 20px">닉네임 : 닉네임을 설정해주세요. </p>
+                </c:if>
+                <p style="font-size: 25px; float: left; margin-top: 55px; margin-left: 20px"><c:out
+                        value="닉네임 : ${sessionScope.memberInfo.nickname}"/></p>
                 <img src="http://localhost/images/pen.png" alt=""
-                     style="width: 25px; height: 25px; margin-top: 50px; margin-left: 5px; border-bottom: 2px solid #222222">
+                     style="width: 25px; height: 25px; margin-top: 50px; margin-left: 10px; border-bottom: 2px solid #222222; cursor: pointer"
+                     onclick="location.href='/myPage/information/myInformation'">
             </div>
-            <div style=" height: 250px; width: 80%; display: flex; flex-direction: column; align-items: center; ">
-
+            <div style=" height: 250px; width: 80%; display: flex; flex-direction: column; align-items: center;">
                 <div style="height: 250px; width: 40%;  text-align: center; border-left: 1px solid #e8e8e8; border-right: 1px solid #e8e8e8">
                     <div style="text-align: center">
                         <span style="color: #1c1c16; font-size: 35px; display: block; margin-top: 30px; ">MY MOVIE LIST</span>
                         <span style="color: #1c1c16; font-size: 25px; display: block; margin-top: 20px; margin-left: 20px;">CGV VIP 도전하세요!</span>
-                        <span style="color: #1c1c16; font-size: 20px; display: block; margin-top: 20px; margin-left: 20px;">현재 예매한 영화: 0개</span>
-                        <span style="color: #1c1c16; font-size: 20px; display: block; margin-top: 20px; margin-left: 20px;">영화관람 횟수: 0번</span>
+                        <span style="color: #1c1c16; font-size: 20px; display: block; margin-top: 20px; margin-left: 20px;">현재 예매한 영화: <span id="current"></span>개</span>
+                        <span style="color: #1c1c16; font-size: 20px; display: block; margin-top: 20px; margin-left: 20px;">영화관람 횟수: <span id="allMovie"></span>번</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div id="mycgv-content2" style=" width: 80%; height: 600px; display: flex; flex-direction: column; align-items: center;">
-        <div id="detail2" style="height: 550px; width: 80%; display: flex; flex-direction: column; position: relative;  padding-top: 20px ">
+    <div id="mycgv-content2"
+         style=" width: 80%; height: 600px; display: flex; flex-direction: column; align-items: center;">
+        <div id="detail2"
+             style="height: 550px; width: 80%; display: flex; flex-direction: column; position: relative;  padding-top: 20px ">
             <div style="height: 100%; width: 250px; position: absolute; float: left">
                 <ul class="menu-list" style="padding-right: 5px">
-                    <li style="background-color: #222221; font-size: 28px; padding: 10px; "><a href="/myPage" style="color: #FFFFFF">MY
+                    <li style="background-color: #222221; font-size: 28px; padding: 10px; "><a href="/myPage"
+                                                                                               style="color: #FFFFFF">MY
                         CGV HOME</a></li>
                     <li class="sub"><a href="/myPage/movieList">기대되는 영화</a></li>
                     <li class="sub"><a href="/myPage/movieView">내가 본 영화</a></li>
@@ -105,31 +134,48 @@
                              onclick="move('movie_review');">
                     </div>
                 </div>
-                <div style=" height: 385px; width: 965px; position: relative;">
-                    <p style="color: #1c1c16; font-size: 30px; padding-top: 30px; padding-left: 10px">COMING SOON!<span
-                            style="font-size: 12px"> 상영 10분 전에는 취소하실 수 없습니다.</span></p>
-                    <div style="height: 200px; width: 100%;">
-                        <div class="ticket-box">
-                            <div class="ticket-header">예매번호</div>
-                            <div class="ticket-number">0056-1125-5979-879</div>
-                            <div class="ticket-date">(2024.11.25)</div>
-                            <hr>
-                            <div class="ticket-info">
-                                <img src="images/모아나.jpg" alt="모아나 2 포스터" class="movie-image">
-                                <div class="details">
-                                    <div><strong>영화 제목:</strong> 모아나 2 (자막)</div>
-                                    <div><strong>관람극장:</strong> CGV 강남 </div>
-                                    <div><strong>관람일시:</strong> 2024.11.30(토) 24:10</div>
-                                    <div><strong>관람좌석:</strong> E 08</div>
+                <div style="height: 385px; width: 965px; position: relative; padding-top: 30px">
+                    <c:choose>
+                        <c:when test="${not empty reservation}">
+                            <p style="color: #1c1c16; font-size: 30px; padding-left: 10px">COMING SOON!
+                                <span style="font-size: 12px"> 상영 10분 전에는 취소하실 수 없습니다.</span>
+                            </p>
+                            <div style="height: 200px; width: 100%;">
+                                <div class="ticket-box">
+                                    <div class="ticket-header">예매번호</div>
+                                    <div class="ticket-number"><strong><fmt:formatNumber value="${reservation.re_num}" pattern="0000"/></strong></div>
+                                    <div class="ticket-date">예매일자 : <c:out value="${reservation.re_date}"/></div>
+                                    <hr>
+                                    <div class="ticket-info">
+                                        <img src="${reservation.main_image}" class="movie-image">
+                                        <div class="details">
+                                            <div><strong>영화 제목:</strong> <c:out value="${reservation.title_k}"/></div>
+                                            <div><strong>관람극장:</strong> <c:out value=" KJY 강남"/></div>
+                                            <div><strong>관람일시:</strong> <c:out value="${reservation.sc_time}"/></div>
+                                            <div><strong>관람좌석:</strong>
+                                                <c:forEach items="${reservation.re_seat}" var="seat" varStatus="i">
+                                                    <strong><c:out value="${seat.h_num}"/><c:out value="${seat.w_num}"/></strong>
+                                                    <c:if test="${not i.last}">,</c:if>
+                                                </c:forEach>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div><strong>총 결제금액:</strong> <fmt:formatNumber value="${reservation.amount}" pattern="#,###,###"/></div>
+                                    <div class="cancel-button">
+                                        <button type="button" onclick="alert(${reservation.re_num})">예매취소</button>
+                                    </div>
                                 </div>
                             </div>
-                            <hr>
-                            <div><strong>총 결제금액:</strong> 9,000원</div>
-                            <div class="cancel-button">
-                                <button type="button" onclick="alert('예매 취소 기능은 아직 구현되지 않았습니다.');">예매취소</button>
+                        </c:when>
+                        <c:otherwise>
+                            <div style="height: 300px; width: 100%; display: flex; justify-content: center; align-items: center; text-align: center; flex-direction: column; background-color: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px;">
+                                <img src="/images/ticket.png" alt="예매 내역 없음" style="width: 100px; height: 100px; margin-bottom: 20px;">
+                                <p style="font-size: 20px; color: #888;">예매내역 중 오늘 상영하는 영화가 없습니다.</p>
+                                <a href="/" style="margin-top: 15px; padding: 10px 20px; background-color: #ff6b6b; color: white; text-decoration: none; border-radius: 5px; font-size: 16px;">예매하러 가기</a>
                             </div>
-                        </div>
-                    </div>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>

@@ -20,7 +20,7 @@ $(function(){
 		<div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
 			<ul class="nav nav-pills flex-column">
 				<li class="nav-item">
-					<a class="nav-link d-flex align-items-center gap-2" href="#" style="color: #8C3434;">대시보드</a>
+					<a class="nav-link d-flex align-items-center gap-2" href="#" onclick="location.href='/admin/dashboard';" style="color: #8C3434;">대시보드</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link d-flex align-items-center gap-2" href="#" style="color: #8C3434;">회원관리</a>

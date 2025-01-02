@@ -1,8 +1,11 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     info="관리자 - 대시보드"
     %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="path" value="${ pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,20 +28,22 @@
 <!-- d3.js CDN -->
 <script src="http://d3js.org/d3.v3.min.js"></script>
 
+<!-- dashboard.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="http://localhost/admin_js/dashboard.js"></script>
+
 <!-- 외부 CSS -->
-<link href="http://localhost/jsp_prj/movie/common/css/common.css" rel="stylesheet" type="text/css">
-<link href="http://localhost/jsp_prj/movie/common/css/header.css" rel="stylesheet" type="text/css">
-<link href="http://localhost/jsp_prj/movie/common/css/sideMenu.css" rel="stylesheet" type="text/css">
-<link href="http://localhost/jsp_prj/movie/common/css/dashboard.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="http://localhost/admin_css/common.css">
 
 <style type="text/css">
 #sideMenuContainer {
+	display: inline-block;
 }
-
 #mainMenuContainer {
 }
 
 #dashContainer {
+	height: 300px; 
 }
 
 .swiper-container {
@@ -67,16 +72,24 @@
 	margin-bottom: 7px;
 }
 span{
-	font-size: 14px;
+	font-size: 12px;
 }
 .title{
+	font-size: 14px;
 	display: block;
 	font-weight: bold;
 }
 .swiper-button-next, .swiper-button-prev {
 	color: #f0f0f0;
 }
+.row {
+	height: 400px;
+}
 </style>
+
+<script type="text/javascript">
+
+</script>
 
 </head>
 <body>
@@ -87,84 +100,65 @@ span{
 </div>
 
 <div id="container" class="container-fluid">
+<div class="row">
 	<jsp:include page="../common/jsp/sideMenu.jsp"/>
 
 	<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 		<!-- d3.js를 이용해 차트 생성 -->
-		<div id="dashContainer">
+		<%-- <div id="dashContainer">
 			<h6>대시보드</h6>
 			<div id="reserbationContainer">
 			일일예매건수
+			<c:out value="${ path }"></c:out>
 			</div>
 			
 			<div id="memberContainer">
 			일일신규&탈퇴회원
 			</div>
-		</div>
-	</main>
+		</div> --%>
+			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group me-1">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="exportBtn" name="exportBtn">추출</button>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1">
+                        <i class="bi bi-calendar-date"></i>
+                        <c:out value="${ date }"></c:out>
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="chart-container">
+                        <canvas id="chart1" style="height: 300px;"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="chart-container">
+                        <canvas id="chart2" style="height: 300px;"></canvas>
+                    </div>
+                </div>
+            </div>
+		
 			<!-- swipe slider를 이용해 상영중인 영화 나열 -->
 		<div id="screenMovieContainer">
 			상영중인영화
 			<div class="swiper-container">
 				<div class="swiper-wrapper">
+					<c:forEach var="dmd" items="${ listMovie }" varStatus="i">
 					<div class="swiper-slide">
-						<img src="http://localhost/jsp_prj/movie/common/images/search.png" alt="Movie 1">
-						<span class="title">영화제목영화제목영화제목</span>
-						<span>개요 </span><span class="genre">스릴러</span> · <span class="time">120</span><span>분</span>
-						<br/><span>개봉 </span><span class="date">2023.01.01</span>
+						<img src="${ dmd.main_image }" alt="Movie 1" style="width: 100px; height: 140px;">
+						<div class="title">${ dmd.title_k }</div>
+						<span>${ dmd.subtitle }</span><br>
+						<span class="genre">${ dmd.g_name }</span> · <span class="time">${ dmd.showtime }</span><span>분</span>
+						<br/>
+						<span>개봉 </span><span class="date">${ dmd.release_date }</span>
 					</div>
-					<div class="swiper-slide">
-						<img src="http://localhost/jsp_prj/movie/common/images/search.png" alt="Movie 2">
-						<span class="title">영화제목</span>
-						<span>개요 </span><span class="genre">스릴러</span> · <span class="time">120</span><span>분</span>
-						<br/><span>개봉 </span><span class="date">2023.01.01</span>
-					</div>
-					<div class="swiper-slide">
-						<img src="http://localhost/jsp_prj/movie/common/images/search.png" alt="Movie 3">
-						<span class="title">영화제목</span>
-						<span>개요 </span><span class="genre">스릴러</span> · <span class="time">120</span><span>분</span>
-						<br/><span>개봉 </span><span class="date">2023.01.01</span>
-					</div>
-					<div class="swiper-slide">
-						<img src="http://localhost/jsp_prj/movie/common/images/search.png" alt="Movie 3">
-						<span class="title">영화제목</span>
-						<span>개요 </span><span class="genre">스릴러</span> · <span class="time">120</span><span>분</span>
-						<br/><span>개봉 </span><span class="date">2023.01.01</span>
-					</div>
-					<div class="swiper-slide">
-						<img src="http://localhost/jsp_prj/movie/common/images/search.png" alt="Movie 3">
-						<span class="title">영화제목</span>
-						<span>개요 </span><span class="genre">스릴러</span> · <span class="time">120</span><span>분</span>
-						<br/><span>개봉 </span><span class="date">2023.01.01</span>
-					</div>
-					<div class="swiper-slide">
-						<img src="http://localhost/jsp_prj/movie/common/images/search.png" alt="Movie 3">
-						<span class="title">영화제목</span>
-						<span>개요 </span><span class="genre">스릴러</span> · <span class="time">120</span><span>분</span>
-						<br/><span>개봉 </span><span class="date">2023.01.01</span>
-					</div>
-					<div class="swiper-slide">
-						<img src="http://localhost/jsp_prj/movie/common/images/search.png" alt="Movie 3">
-						<span class="title">영화제목</span>
-						<span>개요 </span><span class="genre">스릴러</span> · <span class="time">120</span><span>분</span>
-						<br/><span>개봉 </span><span class="date">2023.01.01</span>
-					</div>
-					<div class="swiper-slide">
-						<img src="http://localhost/jsp_prj/movie/common/images/search.png" alt="Movie 3">
-						<span class="title">영화제목</span>
-						<span>개요 </span><span class="genre">스릴러</span> · <span class="time">120</span><span>분</span>
-						<br/><span>개봉 </span><span class="date">2023.01.01</span>
-					</div>
-					<div class="swiper-slide">
-						<img src="http://localhost/jsp_prj/movie/common/images/search.png" alt="Movie 3">
-						<span class="title">영화제목</span>
-						<span>개요 </span><span class="genre">스릴러</span> · <span class="time">120</span><span>분</span>
-						<br/><span>개봉 </span><span class="date">2023.01.01</span>
-					</div>
+					</c:forEach>
 				</div>
 				<!-- 이전, 다음 버튼 (필요한 경우) -->
-				<div class="swiper-button-next"></div>
-				<div class="swiper-button-prev"></div>
+				<!-- <div class="swiper-button-next"></div>
+				<div class="swiper-button-prev"></div> -->
 			</div>
 			<script type="text/javascript">
 			var swiper = new Swiper(".swiper-container", {
@@ -189,6 +183,10 @@ span{
 			});
 			</script>
 		</div>
+	</main>
+			<!-- swipe slider를 이용해 상영중인 영화 나열 -->
+		
+</div>
 </div>
 
 

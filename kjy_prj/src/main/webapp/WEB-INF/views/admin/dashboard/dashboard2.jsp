@@ -29,11 +29,7 @@
 <script src="http://d3js.org/d3.v3.min.js"></script>
 
 <!-- 외부 CSS -->
-<link href="${ path }/css/common.css" rel="stylesheet" type="text/css"/>
-<!-- <link href="http://localhost/jsp_prj/movie/common/css/common.css" rel="stylesheet" type="text/css">
-<link href="http://localhost/jsp_prj/movie/common/css/header.css" rel="stylesheet" type="text/css">
-<link href="http://localhost/jsp_prj/movie/common/css/sideMenu.css" rel="stylesheet" type="text/css">
-<link href="http://localhost/jsp_prj/movie/common/css/dashboard.css" rel="stylesheet" type="text/css"> -->
+<link rel="stylesheet" href="http://localhost/admin_css/common.css">
 
 <style type="text/css">
 #sideMenuContainer {

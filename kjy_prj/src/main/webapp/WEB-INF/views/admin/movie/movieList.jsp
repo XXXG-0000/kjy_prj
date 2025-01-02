@@ -26,10 +26,12 @@
 <script src="http://d3js.org/d3.v3.min.js"></script>
 
 <!-- 외부 CSS -->
-<link href="http://localhost/jsp_prj/movie/common/css/common.css" rel="stylesheet" type="text/css">
+<!-- <link href="http://localhost/jsp_prj/movie/common/css/common.css" rel="stylesheet" type="text/css">
 <link href="http://localhost/jsp_prj/movie/common/css/header.css" rel="stylesheet" type="text/css">
 <link href="http://localhost/jsp_prj/movie/common/css/sideMenu.css" rel="stylesheet" type="text/css">
-<link href="http://localhost/jsp_prj/movie/common/css/dashboard.css" rel="stylesheet" type="text/css">
+<link href="http://localhost/jsp_prj/movie/common/css/dashboard.css" rel="stylesheet" type="text/css"> -->
+<!-- <link rel="stylesheet" href="http://localhost/admin_css/main_20240911.css"> -->
+
 
 <style type="text/css">
 #sideMenuContainer {
@@ -83,6 +85,9 @@ span{
 }
 .manage_screen {
 	background-color: #FF0000;
+	vertical-align: middle;
+	padding: 5px;
+	text-decoration: none;
 	color: #FFF;
 	font-weight: bold;
 	border-radius: 10px;
@@ -124,7 +129,48 @@ span{
 .plus_btn:active {
 	background-color: #802F2F; color: #FFF;
 }
+
 </style>
+
+<script type="text/javascript">
+//탭을 보여주는 함수
+$(function(){
+	$("#keyword").keyup(function(evt){
+		if(evt.which == 13){
+			chkNull();
+		}//end if
+	});//keyup
+	
+	$("#btn").click(function(){
+		chkNull();
+	});//click
+	
+	// 검색으로 선택한 키워드 설정, JSP 코드로 작성 가능
+	if(${ not empty param.keyword }){
+		$("#keyword").val("${ param.keyword }");
+	}
+	$(".manage_screen").click(function(){
+		var url="/admin/movie/movie_schedule?movie_num=${ md.movie_num }&currentPage=${ currentPage }";
+		// param.currentPage: input type hidden 사용해 넘긴다.
+		if(${ not empty param.keyword }){ // 키워드가 있을 경우
+			url += "&field=${ param.field }&keyword=${ param.keyword }"			
+		}// end if
+		location.href = url;
+	});//click
+	
+});//ready
+
+function chkNull(){
+	var keyword = $("#keyword").val();
+	if(keyword.length < 2){
+		alert("검색 키워드는 한 글자 이상 입력하셔야 합니다.");
+		return;
+	}//end if
+	
+	$("#searchFrm").submit();
+}//chkNull
+
+</script>
 
 </head>
 <body>
@@ -180,7 +226,7 @@ span{
 		<c:forEach var="md" items="${ listMovie }" varStatus="i">
 		<tr>
 			<td><c:out value="${ md.movie_num }"/></td>
-			<td><a href="/board/board_detail?movie_num=${ bVO.movie_num }&currentPage=${ currentPage }${ searchParam }">
+			<td><a href="/admin/movie/movie_detail?movie_num=${ md.movie_num }&currentPage=${ currentPage }${ searchParam }">
 			<c:out value="${ md.title_k }"/></a></td>
 			<c:choose>
 				<c:when test="${ md.screening_f eq '0' }">
@@ -199,42 +245,24 @@ span{
 				</td>
 				</c:otherwise>
 			</c:choose>
-			<td style="text-align: center;"><input type="button" class="manage_screen" value="상영관리"/></td>
+			<td style="text-align: center;">
+			<a href="/admin/movie/movie_schedule?movie_num=${ md.movie_num }&currentPage=${ currentPage }${ searchParam }" class="manage_screen">
+			상영관리</a></td>
+			<!-- <td style="text-align: center;"><input type="button" class="manage_screen" value="상영관리"/></td> -->
 		</tr>
 		</c:forEach>
-		
-		
-			<!-- 테이블 생성.. -->
-			<!-- <tr>
-				<td>00001</td>
-				<td><a href="#void">모아나2</a></td>
-				<td style="display: flex; justify-content: center; align-items: center;"><div class="movieState" style="width: 90px; height: 30px; background-color: orange; border-radius: 5px; color: #FFF; display: flex; justify-content: center; align-items: center;">상영대기</div></td>
-				<td style="text-align: center;"><input type="button" class="manage_screen" value="상영관리"/></td>
-			</tr>
-			<tr>
-				<td>00001</td>
-				<td><a href="#void">모아나2</a></td>
-				<td style="display: flex; justify-content: center; align-items: center;"><div class="movieState" style="width: 90px; height: 30px; background-color: green; border-radius: 5px; color: #FFF; display: flex; justify-content: center; align-items: center;">상영중</div></td>
-				<td style="text-align: center;"><input type="button" class="manage_screen" value="상영관리"/></td>
-			</tr>
-			<tr>
-				<td>00001</td>
-				<td><a href="#void">모아나2</a></td>
-				<td style="display: flex; justify-content: center; align-items: center;"><div class="movieState" style="width: 90px; height: 30px; background-color: gray; border-radius: 5px; color: #FFF; display: flex; justify-content: center; align-items: center;">상영종료</div></td>
-				<td style="text-align: center;"><input type="button" class="manage_screen" value="상영관리"/></td>
-			</tr> -->
 		 
 		</tbody>
 		</table>
         <!-- search -->
 		<div id="search" style="width: 750px; height: 60px; text-align: center;">
-		<form action="/admin/movie_list" method="get" id="searchFrm" name="searchFrm">
-			<select id="field" name="field" style="width: 100px; height: 44px;">
+		<form action="/admin/movie/movie_list" method="get" id="searchFrm" name="searchFrm">
+			<select id="field" name="field" style="width: 100px; height: 30px;">
                 <option value="0">번호</option>
                 <option value="1">제목</option>
             </select>
 			<input type="text" name="keyword" id="keyword" style="width: 200px"/>
-			<input type="button" value="검색" id="btn"  class="btn btn-sm" style="background-color: #8C3434; color: #FFF;"/>
+			<input type="button" value="검색" id="btn"  class="btn btn-sm" style="background-color: #8C3434; color: #FFF; vertical-align: top;"/>
 		</form>
 			<input type="text" name="keyword" style="display: none"/><!-- 엔터키 눌러도 검색되는 것을 방지 -->
 		</div> 
