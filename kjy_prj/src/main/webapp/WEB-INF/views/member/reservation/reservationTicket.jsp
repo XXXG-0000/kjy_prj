@@ -17,38 +17,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
 	<link rel="stylesheet" href="http://img.cgv.co.kr/CGV_RIA/Ticket/Common/css/2024/0820/FORM_TYPE/reservation_tnb.css" />
-
-    <script type="text/javascript">
-    $(function() {
-		$(".movie").click(function() {
-			$(".movie").attr('class', 'movie');
-			$(this).addClass("selected");
-			$("#selectedMovie").val($(this).find(".movietitle").html());
-		})//click
-
-		$(".day").click(function() {
-			$(".day").removeClass("selected");
-			$(this).addClass("selected");
-		})//click
-		
-		$(".time").click(function() {
-			$(".time").removeClass("selected");
-			$(this).addClass("selected");
-		})//click
-	}); // ready
-    
-        function move(url) {
-            if (url == 'movie_list') {
-                location.href = "http://localhost/myPage/movieList";
-            } else if (url == 'movie_view') {
-                location.href = "http://localhost/myPage/movieView";
-            } else {
-                location.href = "http://localhost/myPage/movieReview";
-            }
-
-        }
-
-    </script>
+   
     <style type="text/css">
 
         a:hover {
@@ -73,8 +42,8 @@
 	/* width: 721px; */
 }
 .refresh {
-	float:right; width: 50px; text-align: left; padding-right:20px;
-	color:#e6e6e6;font-size:12px;font-weight:bold;letter-spacing:-1px;
+	float: right; width: 50px; text-align: left; 
+	color:#e6e6e6;font-size:12px;font-weight:bold;letter-spacing:-2px;
 	background-color: #333; border: 1px solid #333;
 	display: inline-block;
 }
@@ -190,6 +159,42 @@ div.movie:hover {
 .day-sun {
 	color: #AD2727;
 }
+
+/* S day */
+.movie-week-of-day {
+    margin-left: 5px;
+    font-size: 10px;
+    width: 12px;
+    height: 22px;
+    line-height: 22px;
+}
+
+.movie-day {
+    text-align: center;
+    width: 34px;
+    height: 22px;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.saturday {
+    color: #31597E;
+    font-weight: bold;
+}
+
+.sunday {
+    color: #AF2D2D;
+    font-weight: bold;
+}
+
+.movie-date-wrapper-active {
+    background-color: #333333;
+}
+
+.movie-date-wrapper-active>* {
+    color: white;
+}
+/* E day */
 
 .selected {
 	background-color: #333;
@@ -375,6 +380,277 @@ img {
 }
 </style>
 
+<script type="text/javascript">
+    $(function() {
+		$(".movie").click(function() {
+			$(".movie").attr('class', 'movie');
+			$(this).addClass("selected");
+			$("#selectedMovie").val($(this).find(".movietitle").html());
+			
+			var title_k = $(this).find(".movietitle").html();
+			
+			let img = document.querySelector(".movie_poster > img");
+			let title = document.querySelector(".movie_title");
+			let titleK = document.querySelector(".movie_title_k");
+			
+			var param = { title_k : title_k };
+			
+			$.ajax({
+				url:"/reservation/search_main_image",
+				type:"POST",
+				data: param,
+				dataType: "JSON",
+				error: function(xhr){
+					alert(xhr.status)
+				},
+				success:function(jsonObj){
+					if(jsonObj.findFlag){
+						img.src = jsonObj.main_image;
+						title.innerHTML = jsonObj.title_k;
+						titleK.value = jsonObj.title_k;
+					}//end if
+				}//success
+			});//ajax
+			
+			chkSelected();
+		})//click
+		
+		$(".time").click(function() {
+			$(".time").removeClass("selected");
+			$(this).addClass("selected");
+		})//click
+		
+		$(".refresh").click(function() {
+			$(".movie").removeClass("selected");
+			$(".day").removeClass("movie-date-wrapper-active");
+			$(".time").removeClass("selected");
+		})//click
+		
+		//날짜 구현
+		const date = new Date();
+        // console.log(date.getFullYear());
+        const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+        const reserveDate = document.querySelector(".datelist");
+
+      
+            const weekOfDay = ["일", "월", "화", "수", "목", "금", "토"]
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            
+            /* 2025년 1월 */
+            const liMonth = document.createElement("li");
+            liMonth.classList = "month";
+            const spanYear = document.createElement("span");
+            const spanMonth = document.createElement("span");
+            spanYear.classList = "year";
+            spanMonth.classList = "month";
+            spanYear.innerHTML = year;
+            spanMonth.innerHTML = month+1;
+            liMonth.append(spanYear);
+            liMonth.append(spanMonth);
+            reserveDate.append(liMonth);
+            
+            for(i = 0; i < 14; i++){
+            	//마지막 날을 넘었을 경우
+            	if(Number(date.getDate()+i) > lastDay.getDate()){
+            		month += 1;
+            		spanYear.innerHTML = year;
+            		spanMonth.innerHTML = month+1;
+            		liMonth.append(spanYear);
+                    liMonth.append(spanMonth);
+                    reserveDate.append(liMonth);
+            	}//end if
+            	
+            	const li = document.createElement("li");
+                const spanWeekOfDay = document.createElement("span");
+                const spanDay = document.createElement("span");
+                const hiddenMonth = document.createElement("input");
+                hiddenMonth.setAttribute("type", "hidden");
+                hiddenMonth.setAttribute("id", "getMonth");
+                
+
+                //class넣기
+                li.classList = "day";
+                spanWeekOfDay.classList = "movie-week-of-day";
+                spanDay.classList = "movie-day";
+
+                //weekOfDay[new Date(2020-03-날짜)]
+                const dayOfWeek = weekOfDay[new Date(year + "-" + (month+1) + "-" + Number(date.getDate()+i)).getDay()];
+                //out.println(dayOfWeek);
+                console.log(year);
+                console.log(month+1);
+
+                //요일 넣기
+                if (dayOfWeek === "토") {
+                    spanWeekOfDay.classList.add("saturday");
+                    spanDay.classList.add("saturday");
+                } else if (dayOfWeek === "일") {
+                    spanWeekOfDay.classList.add("sunday");
+                    spanDay.classList.add("sunday");
+                }
+                spanWeekOfDay.innerHTML = dayOfWeek + "	";
+                li.append(spanWeekOfDay);
+                //날짜 넣기
+                spanDay.innerHTML = "	" + Number(date.getDate()+i);
+                li.append(spanDay);
+           //     hiddenMonth.setAttribute("value", (month+1));
+                hiddenMonth.setAttribute("value", year + "-" + (month+1) + "-" + Number(date.getDate()+i));
+                li.append(hiddenMonth);
+                reserveDate.append(li);
+
+                //dayClickEvent(li);
+            }//end for
+            
+            /*
+            for (i = date.getDate(); i <= lastDay.getDate(); i++) {
+            	if(i - date.getDate() > 14){
+            		break;
+            	}
+
+                const button = document.createElement("button");
+                //button.setAttribute("type", "button");
+                const li = document.createElement("li");
+                const spanWeekOfDay = document.createElement("span");
+                const spanDay = document.createElement("span");
+
+                //class넣기
+                button.classList = "movie-date-wrapper";
+                li.classList = "day";
+                spanWeekOfDay.classList = "movie-week-of-day";
+                spanDay.classList = "movie-day";
+
+                //weekOfDay[new Date(2020-03-날짜)]
+                const dayOfWeek = weekOfDay[new Date(year + "-" + (month+1) + "-" + i).getDay()];
+                //out.println(dayOfWeek);
+                console.log(year);
+                console.log(month+1);
+
+                //요일 넣기
+                if (dayOfWeek === "토") {
+                    spanWeekOfDay.classList.add("saturday");
+                    spanDay.classList.add("saturday");
+                } else if (dayOfWeek === "일") {
+                    spanWeekOfDay.classList.add("sunday");
+                    spanDay.classList.add("sunday");
+                }
+                spanWeekOfDay.innerHTML = dayOfWeek + "	";
+                li.append(spanWeekOfDay);
+                //button.append(spanWeekOfDay);
+                //날짜 넣기
+                spanDay.innerHTML = "	" + i;
+                li.append(spanDay);
+                //button.append(spanDay);
+                //button.append(i);
+                reserveDate.append(li);
+
+                dayClickEvent(li);
+            }
+            */
+            
+       //     $(document).on("click", ".day", function(){
+    	   //날짜 클릭
+    	   //영화, 날짜 모두 클릭할 경우 스케줄 구현 메소드 chkSelected ajax 실행
+			$(".day").click(function(){
+            	$(".day").removeClass("selected");
+    			$(this).addClass("selected");
+            	var str_date = $(this).find("input[type='hidden']").val();
+    			//alert(str_date);
+    			var param = { sc_date_str : str_date };
+    			
+    			let date = document.querySelector(".sc_date");
+    			let date_str = document.querySelector(".movie_sc_date_str");
+			
+				$.ajax({
+					url:"/reservation/search_sc_date",
+					type:"POST",
+					data: param,
+					dataType: "JSON",
+					error: function(xhr){
+						alert(xhr.status)
+					},
+					success:function(jsonObj){
+						if(jsonObj.findFlag){
+							date.innerHTML = jsonObj.sc_date;
+							date_str.value = jsonObj.sc_date;
+			    			chkSelected();
+						}//end if
+					}//success
+				});//ajax
+    		});//click
+            
+	}); // ready
+    
+        function move(url) {
+            if (url == 'movie_list') {
+                location.href = "http://localhost/myPage/movieList";
+            } else if (url == 'movie_view') {
+                location.href = "http://localhost/myPage/movieView";
+            } else {
+                location.href = "http://localhost/myPage/movieReview";
+            }
+
+        }
+	
+
+        function dayClickEvent(button) {
+            button.addEventListener("click", function() {
+                const movieDateWrapperActive = document.querySelectorAll(".movie-date-wrapper-active");
+                movieDateWrapperActive.forEach((list) => {
+                    list.classList.remove("movie-date-wrapper-active");
+                })
+                button.classList.add("movie-date-wrapper-active");
+            })
+			//alert("asdf");
+        }
+        
+        
+
+		/* $(document).on("click", "li[class='day']", function() {			
+			var str_date = $(this).val();
+			alert("asdf");
+			
+		})//click */
+        
+		//영화, 날짜 모두 클릭할 경우 스케줄을 구현하는 일을 하는 메소드
+        function chkSelected(){
+    		const hasMovie = $(".movie").hasClass('selected');
+    		const hasDay = $(".day").hasClass('selected');
+    		
+    		if(!hasMovie || !hasDay){
+    			//alert("asdf");
+    			return;
+    		}//end if
+    		
+    		if(hasMovie && hasDay){
+    			//alert("fdsa");
+    			var sc_date_str = $(".movie_sc_date_str").val();
+    			var title_k = $(".movie_title").html();
+    			
+    			var param = { sc_date_str : sc_date_str, title_k : title_k };
+    			
+    			const reserveList =  document.querySelector(".theater");
+    			
+    			$.ajax({
+					url:"/reservation/search_screen_info",
+					type:"POST",
+					data: param,
+					dataType: "JSON",
+					error: function(xhr){
+						alert(xhr.status);
+						alert("서버 데이터를 가져오지 못했습니다. 다시 확인하여 주십시오.");
+					},
+					success:function(data){
+						alert(data.screenList.length);						
+						$(".timelist").empty();
+						$(".timelist").append(data);
+					}//success
+				});//ajax
+    		}//end if
+    		
+    	}//chkSelected
+
+</script>
+
 </head>
 <body>
 <div id="wrap"
@@ -387,24 +663,24 @@ img {
 				<div class="ticket_head section-movie">영화</div>
 				<div class="section-body" style="margin-top: 5px;">
 					<div class="movielist">
+					<c:forEach var="rmd" items="${ movieList }" varStatus="i">
 							<div class="movie">
-							<img src="http://localhost/mvc_emp/design/common/images/all.png" class="content_rate">
-							<span class="movietitle">모아나2 </span></div>
-							<div class="movie">
-							<img src="http://localhost/mvc_emp/design/common/images/all.png" class="content_rate">
-							<span class="movietitle">위키드</span></div>
-							<div class="movie">
-							<img src="http://localhost/mvc_emp/design/common/images/adult.png" class="content_rate">
-							<span class="movietitle">히든페이스</span></div>
-							<div class="movie">
-							<img src="http://localhost/mvc_emp/design/common/images/twelve.png" class="content_rate">
-							<span class="movietitle">소방관</span></div>
-							<div class="movie">
-							<img src="http://localhost/mvc_emp/design/common/images/all.png" class="content_rate">
-							<span class="movietitle">청설</span></div>
-							<div class="movie">
-							<img src="http://localhost/mvc_emp/design/common/images/twelve.png" class="content_rate">
-							<span class="movietitle">1승</span></div>
+							<c:choose>
+							<c:when test="${ rmd.audience_rating eq 0 }">
+							<img src="http://localhost/reservation_images/adult.png" class="content_rate">
+							</c:when>
+							<c:when test="${ rmd.audience_rating eq 1 }">
+							<img src="http://localhost/reservation_images/fifteen.png" class="content_rate">
+							</c:when>
+							<c:when test="${ rmd.audience_rating eq 2 }">
+							<img src="http://localhost/reservation_images/twelve.png" class="content_rate">
+							</c:when>
+							<c:otherwise>
+							<img src="http://localhost/reservation_images/all.png" class="content_rate">
+							</c:otherwise>
+							</c:choose>
+							<span class="movietitle"> ${ rmd.title_k }</span></div>
+					</c:forEach>
 							<input type="hidden" id=selectedMovie>
 					</div>
 				</div>
@@ -413,53 +689,7 @@ img {
 				<div class="ticket_head section-date">날짜</div>
 				<div class="section-body">
 					<div class="datelist">
-						<ul>
-							<li class="month">
-								<div class="date">
-									<span class="year">2024</span> <span class="month">11</span>
-								</div>
-							</li>
-							<li class="day"><span class="dayweek">목</span> <span
-								class="day">28</span></li>
-							<li class="day"><span class="dayweek">금</span> <span
-								class="day">29</span></li>
-							<li class="day day-sat"><span class="dayweek">토</span> <span
-								class="day">30</span></li>
-							<li class="month">
-								<div class="date">
-									<span class="year">2024</span> <span class="month">12</span>
-								</div>
-							</li>
-							<li class="day day-sun"><span class="dayweek">일</span> <span
-								class="day">1</span></li>
-							<li class="day"><span class="dayweek">월</span> <span
-								class="day">2</span></li>
-							<li class="day"><span class="dayweek">화</span> <span
-								class="day">3</span></li>
-							<li class="day"><span class="dayweek">수</span> <span
-								class="day">4</span></li>
-							<li class="day"><span class="dayweek">목</span> <span
-								class="day">5</span></li>
-							<li class="day"><span class="dayweek">금</span> <span
-								class="day">6</span></li>
-							<li class="day day-sat"><span class="dayweek">토</span> <span
-								class="day">7</span></li>
-							<li class="day day-sun"><span class="dayweek">일</span> <span
-								class="day">8</span></li>
-							<li class="day"><span class="dayweek">월</span> <span
-								class="day">9</span></li>
-							<li class="day"><span class="dayweek">화</span> <span
-								class="day">10</span></li>
-							<li class="day"><span class="dayweek">수</span> <span
-								class="day">11</span></li>
-							<li class="day"><span class="dayweek">목</span> <span
-								class="day">12</span></li>
-							<li class="day"><span class="dayweek">금</span> <span
-								class="day">13</span></li>
-							<li class="day day-sat"><span class="dayweek">토</span> <span
-								class="day">14</span></li>
-
-						</ul>
+						
 					</div>
 				</div>
 			</div>
@@ -477,20 +707,21 @@ img {
 					<div class="placeholder hidden">영화, 극장, 날짜를 선택해주세요.</div>
 					<div class="timelist">
 					<div class="theater">
+					<c:forEach var="rsd" items="${ screenList }" varStatus="i">
 						<span class="title">
-							<span class="name">2D(자막)</span>
-							<span class="floor">3관 8층</span>
-							<span class="seatcount">(총172석)</span>
 						</span>
 						<ul>
 						<li class="screen_time" style="margin-bottom: 15px;">
 						<span class="time">
-							09:20
+							{ rsd.sc_time_str }
 						</span>
-						<span class="morning count">120석</span>
+						<span class="morning count">{ rsd.total_seat}석 </span>
+						<span class="name">${ rsd.category } </span>
+						<span>${ rsd.th_num }관 </span>
 						<div class="endtime">종료시간 11:10</div>
 						</li>
-						<li class="screen_time">
+					</c:forEach>
+						<!-- <li class="screen_time">
 						<span class="time">
 							11:30
 						</span>
@@ -530,9 +761,9 @@ img {
 						<div class="endtime">종료시간 22:00</div>
 						</li>
 						<li></li>
-						</ul>
+						</ul> -->
 					</div>
-					<div class="theater">
+					<!-- <div class="theater">
 						<span class="title">
 							<span class="name">2D(자막)</span>
 							<span class="floor">4관 8층</span>
@@ -587,7 +818,7 @@ img {
 						</li>
 						<li></li>
 						</ul>
-					</div>
+					</div> -->
 					</div>
 				</div>
 			</div>
@@ -596,14 +827,18 @@ img {
 		<div id="ticket_tnb" class="tnb_container">
 			<div class="info info_movie">
 				<div class="movie_poster">
-				<img src="http://localhost/mvc_emp/design/common/images/88076_1000.jpg" alt="영화 포스터" />
+				<img id="main_image" src="http://localhost/mvc_emp/design/common/images/88076_1000.jpg" alt="영화 포스터" />
 				</div>
-				<div class="movie_title">제목 </div>
-				<div class="movie_type">타입 </div>
-				<div class="movie_rating">등급 </div>
+				<div class="movie_title" name="title_k">제목 </div>
+				<input type="hidden" class="movie_title_k" name="title_k"/>
+				<!-- <div class="movie_type">타입 </div>
+				<div class="movie_rating">등급 </div> -->
 			</div>
 			<div class="info info_theater">
-				<div class="row_date">일시 </div>
+				<div class="row_date">일시 
+				<span class="sc_date"></span>
+				<input type="hidden" class="movie_sc_date_str" name="sc_date_str"/>
+				</div>
 				<div class="row_screen">상영관 </div>
 				<div class="row_number">인원 </div>
 			</div>
@@ -624,7 +859,7 @@ img {
 				</div>
 				<div></div>
 			</div>
-			<input type="button" class="btn btn-danger btnSeat" value="결제선택" style="margin-left: 30px;"/>
+			<input type="button" class="btn btn-danger btnSeat" value="좌석선택" style="margin-left: 30px;"/>
 		</div>
 	</form>
     

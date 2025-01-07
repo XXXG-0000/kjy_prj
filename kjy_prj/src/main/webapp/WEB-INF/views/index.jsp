@@ -60,7 +60,18 @@
                 zoom.in(event.target); // Trigger zoom when image is clicked
             }
         });
+
     });
+
+    $(function () {
+        $("#movie_chart").click(function () {
+            location.href = "/movie_chart";
+        });
+        $("#preMovie_chart").click(function () {
+            location.href = "/preMovie_chart";
+
+        });
+    })
 </script>
 
 <body>
@@ -103,7 +114,7 @@
                 <div class="chart-title">무비차트</div>
                 <!-- 전체보기 버튼 -->
                 <input type="button" style="background-color: #fb4357; color: white; border: none; padding: 10px 20px;
-                       font-size: 14px; font-weight: bold; border-radius: 5px; cursor: pointer;" value="전체보기"/>
+                       font-size: 14px; font-weight: bold; border-radius: 5px; cursor: pointer;" value="전체보기" id="movie_chart"/>
             </div>
             <div class="swiper-container">
                 <div class="swiper-wrapper">
@@ -112,13 +123,13 @@
                             <div class="slide-content">
                                 <img src="${movie.main_image}" class="slide-image">
                                 <div class="button-container">
-                                    <button class="detail-btn">상세보기</button>
+                                    <button class="detail-btn"  onclick="location.href='/movie/detail/${movie.movie_num}'">상세보기</button>
                                     <button class="book-btn">예매하기</button>
                                 </div>
                             </div>
                             <div class="movie-rank"><c:out value="${i.count}"/></div>
                             <div class="movie-title"><c:out value="${movie.title_k}"/></div>
-                            <div class="movie-additional-info">예매율 / <c:out value="${movie.rate}"/></div>
+                            <div class="movie-additional-info">예매율 / <c:out value="${movie.rate}"/>%</div>
                         </div>
                     </c:forEach>
                 </div>
@@ -136,7 +147,7 @@
                 <div class="chart-title">상영예정작</div>
                 <!-- 전체보기 버튼 -->
                 <input type="button" style="background-color: #fb4357; color: white; border: none; padding: 10px 20px;
-                       font-size: 14px; font-weight: bold; border-radius: 5px; cursor: pointer;" value="전체보기"/>
+                       font-size: 14px; font-weight: bold; border-radius: 5px; cursor: pointer;" value="전체보기" id="preMovie_chart"/>
             </div>
             <div class="swiper-container">
 
@@ -146,13 +157,13 @@
                             <div class="slide-content">
                                 <img src="${preMovie.main_image}" class="slide-image">
                                 <div class="button-container">
-                                    <button class="detail-btn">상세보기</button>
+                                    <button class="detail-btn" onclick="location.href='/movie/detail/${preMovie.movie_num}'">상세보기</button>
                                     <button class="book-btn">예매하기</button>
                                 </div>
                             </div>
                             <div class="movie-rank"><c:out value="${i.count}"/></div>
                             <div class="movie-title"><c:out value="${preMovie.title_k}"/></div>
-                            <div class="movie-additional-info">예매율 / <c:out value="${preMovie.rate}"/></div>
+                            <div class="movie-additional-info">예매율 / <c:out value="${preMovie.rate}"/>%</div>
                         </div>
                     </c:forEach>
 

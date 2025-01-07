@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>내가 쓴 평점</title>
-    <link rel="stylesheet" href="http://localhost/css/main_20240911.css">
+    <link rel="stylesheet" href="http://192.168.10.213/css/main_20240911.css">
 
     <!--bootstrap CDN-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -72,26 +72,47 @@
                 url: "/myPage/information/modifyReview",
                 type: "POST",
                 data: data,
-                success: function(response) {
+                success: function (response) {
                     // 수정이 성공하면 모달을 닫고, 서버로부터 받은 응답을 처리
                     alert(response);
                     closeModal();  // 모달 닫기
                     location.reload();  // 페이지 새로고침 (리스트 업데이트)
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
                 }
             });
+        }
+
+        function deleteReview(num) {
+            if (confirm("리뷰를 삭제하시겠습니까?")) {
+                $.ajax({
+                    url: "/myPage/movieReview/delete/" + num,
+                    error: function (xhr) {
+                        console.error(xhr.status)
+                    },
+                    success: function (data) {
+                        if (data) {
+                            alert("리뷰가 삭제되었습니다.");
+                            location.reload();
+                        } else {
+                            alert("리뷰 삭제 도중 문제가 발생했습니다.");
+                        }
+                    }
+                })
+            }
+
         }
 
 
     </script>
 
     <style>
-        a:hover{
+        a:hover {
             font-size: 15px;
             color: #fb4357;
         }
+
         /* 모달 기본 스타일 */
         .modal {
             display: none; /* 기본적으로 숨김 */
@@ -143,7 +164,7 @@
                      style="width: 80%; height: 30%; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
                     <img src="/upload/${sessionScope.memberInfo.profile}" class="profile-image">
                     <div class="box-text" style="margin-top: 20px;">
-                        <c:out value="${sessionScope.memberInfo.name}"/> <img src="http://localhost/images/pen.png"
+                        <c:out value="${sessionScope.memberInfo.name}"/> <img src="http://192.168.10.213/images/pen.png"
                                                                               alt="" style="width: 20px; height: 20px;">
                     </div>
                 </div>
@@ -193,7 +214,8 @@
                                         <p class="box-p" style="font-size: 17px">
                                             <c:choose>
                                                 <c:when test="${rev.review_f=='G'}">
-                                                    <img src="/images/good.png" alt="" style="width: 25px; height: 25px">
+                                                    <img src="/images/good.png" alt=""
+                                                         style="width: 25px; height: 25px">
                                                 </c:when>
                                                 <c:otherwise>
                                                     <img src="/images/bad.png" alt="" style="width: 25px; height: 25px">
@@ -205,7 +227,7 @@
                                         </p>
                                     </div>
                                     <div style="float: right">
-                                        <a href="">X</a>
+                                        <a href="javascript:deleteReview('${rev.review_num}')">X</a>
                                     </div>
 
                                     <!-- 수정용 모달 -->
@@ -214,13 +236,14 @@
                                             <span class="close" onclick="closeModal()" style="color: #fb4357">×</span>
                                             <form id="review-form" method="post">
                                                 <span id="movie-title" style="font-size: 20px"></span>의 리뷰를 수정해주세요!
-                                                <textarea id="review-text" name="review" placeholder="수정해주세요..." style="width: 100%; height: 100px; margin-top: 20px"></textarea><br>
+                                                <textarea id="review-text" name="review" placeholder="수정해주세요..."
+                                                          style="width: 100%; height: 100px; margin-top: 20px"></textarea><br>
                                                 <p>평가:
                                                     <label>
-                                                        <input type="radio" name="review_f" value="G" /> 재밌어요!
+                                                        <input type="radio" name="review_f" value="G"/> 재밌어요!
                                                     </label>
                                                     <label>
-                                                        <input type="radio" name="review_f" value="B" /> 노잼
+                                                        <input type="radio" name="review_f" value="B"/> 노잼
                                                     </label>
                                                 </p>
                                                 <input type="hidden" id="review-num" name="review_num">
@@ -247,7 +270,6 @@
         </div>
     </div>
 </div>
-
 
 
 <jsp:include page="/WEB-INF/views/member/common/footer.jsp"/>

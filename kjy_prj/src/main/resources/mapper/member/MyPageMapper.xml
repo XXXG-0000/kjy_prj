@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.co.sist.cgv_prj.member.myCGV.MyPageMapper">
+<mapper namespace="kr.co.sist.kjy_prj.member.myCGV.MyPageMapper">
 
     <resultMap id="reservationWithSeatsMap" type="kr.co.sist.kjy_prj.member.domain.ReservationDomain">
         <!-- 예약 정보 -->

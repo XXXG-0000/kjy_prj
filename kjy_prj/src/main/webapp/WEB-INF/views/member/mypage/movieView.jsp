@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>내가 본 영화</title>
-    <link rel="stylesheet" href="http://localhost/css/main_20240911.css">
+    <link rel="stylesheet" href="http://192.168.10.213/css/main_20240911.css">
     <!--bootstrap CDN-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -61,7 +61,8 @@
                 success: function(response) {
                     // 서버에서 응답이 성공적으로 왔을 때 실행되는 함수
                     alert(response);
-                    closeModal(movieNum);  // 모달 닫기
+                    closeModal();  // 모달 닫기
+                    location.reload();  // 페이지 새로고침 (리스트 업데이트)
                 },
                 error: function(xhr, status, error) {
                     // 서버에서 오류가 발생했을 때 실행되는 함수
@@ -128,7 +129,7 @@
                      style="width: 80%; height: 30%; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
                     <img src="/upload/${sessionScope.memberInfo.profile}" class="profile-image">
                     <div class="box-text" style="margin-top: 20px;">
-                        <c:out value="${sessionScope.memberInfo.name}"/> <img src="http://localhost/images/pen.png"
+                        <c:out value="${sessionScope.memberInfo.name}"/> <img src="http://kjy.sist.co.kr/images/pen.png"
                                                                               alt="" style="width: 20px; height: 20px;">
                     </div>
                 </div>
@@ -176,7 +177,7 @@
                                         <p class="box-p"><c:out value="강남 KJY 극장"/></p>
                                         <p class="box-p"> 평가 :
                                             <c:choose>
-                                            <c:when test="${mv.review_f=='N'}">
+                                            <c:when test="${empty mv.review_f or mv.review_f=='N'}">
                                             <a href="javascript:void(0);" onclick="showModal(${mv.movie_num})">작성하기</a>
                                             </c:when>
                                             <c:otherwise>
@@ -184,9 +185,7 @@
                                             </c:otherwise>
                                             </c:choose>
                                     </div>
-                                    <div style="float: right">
-                                        <a href="">X</a>
-                                    </div>
+               
                                 </div>
                                 <div id="modal-${mv.movie_num}" class="modal">
                                     <div class="modal-content">
@@ -230,9 +229,8 @@
         modal.style.display = "block";  // 모달 보이기
     }
 
-    function closeModal(movieNum) {
-        var modal = document.getElementById('modal-' + movieNum);
-        modal.style.display = "none";  // 모달 숨기기
+    function closeModal() {
+        $("#modal-review").hide();
     }
 </script>
 <jsp:include page="/WEB-INF/views/member/common/footer.jsp"/>

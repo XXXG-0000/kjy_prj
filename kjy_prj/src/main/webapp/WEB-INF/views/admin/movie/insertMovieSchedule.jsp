@@ -26,10 +26,10 @@
 <script src="http://d3js.org/d3.v3.min.js"></script>
 
 <!-- 외부 CSS -->
-<link rel="stylesheet" href="http://localhost/admin_css/movie_admin.css">
+<link rel="stylesheet" href="http://kjy.sist.co.kr/admin_css/movie_admin.css">
 
 <!-- 외부 JS -->
-<script type="text/javascript" src="http://localhost/admin_js/jquery-dateformat.js"></script>
+<script type="text/javascript" src="http://kjy.sist.co.kr/admin_js/jquery-dateformat.js"></script>
 
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>    
@@ -324,7 +324,7 @@
 		            <div>
 		            <select class="select_screen" id="th_num" name="th_num">
 								<option value="">-선택-</option>
-								<option value="1" selected="selected">1관</option>
+								<option value="1">1관</option>
 								<option value="2">2관</option>
 								<option value="3">3관</option>
 								<option value="4">4관</option>
@@ -340,13 +340,26 @@
 		            
 		            <div>
 		            <label for="screen_time">상영 시간</label>
-		            <input type="text" id="sc_time" name="sc_time_str" value="2024-12-30 14:50:00" placeholder="상영 시간을 입력하세요(예: 2024-01-01 09:00:00)"><br>
+		            <input type="text" id="sc_time" name="sc_time_str" value="" placeholder="상영 시간을 입력하세요(예: 2024-01-01 09:00:00)"><br>
 		            </div>
 		            
 		            <div>
 		            <label for="end_time">상영 종료 시간</label>
-		            <input type="text" id="sc_end_time" name="sc_end_time_str" value="2024-12-30 16:46:00" placeholder="상영 종료 시간을 입력하세요(예: 2024-01-01 09:00:00)"><br>
+		            <input type="text" id="sc_end_time" name="sc_end_time_str" value="" placeholder="상영 종료 시간을 입력하세요(예: 2024-01-01 09:00:00)"><br>
 		            </div>
+		            
+		            <!-- 제출 버튼 -->
+	        		<button type="button" class="btn btn-secondary" id="confirmMovie">확인</button>
+	        		<button type="button" class="btn" id="addMovie" style="background-color: #8C3434; color: #FFF;">상영 추가</button>
+	        		<input type="hidden" id="screening_f" value="${ md.screening_f }" >
+	        		<c:choose>
+	        		<c:when test="${ md.screening_f ne '2' }">
+	        		<button type="button" class="btn btn-danger" id="endMovie">상영 종료</button>        		
+	        		</c:when>
+	        		<c:otherwise>
+	        		<button type="button" class="btn btn-success" id="readyMovie">상영 재개</button>        		
+	        		</c:otherwise>
+	        		</c:choose>
 
 					<!-- 영화 스케줄 리스트 -->
 					<div>
@@ -383,19 +396,6 @@
 					</tbody>
 					</table>
 					</div>
-		            
-		        <!-- 제출 버튼 -->
-        		<button type="button" class="btn btn-secondary" id="confirmMovie">확인</button>
-        		<button type="button" class="btn" id="addMovie" style="background-color: #8C3434; color: #FFF;">상영 추가</button>
-        		<input type="hidden" id="screening_f" value="${ md.screening_f }" >
-        		<c:choose>
-        		<c:when test="${ md.screening_f ne '2' }">
-        		<button type="button" class="btn btn-danger" id="endMovie">상영 종료</button>        		
-        		</c:when>
-        		<c:otherwise>
-        		<button type="button" class="btn btn-success" id="readyMovie">상영 재개</button>        		
-        		</c:otherwise>
-        		</c:choose>
    			</form>
 		</div>
 	</main>

@@ -1,20 +1,20 @@
 <%@ page import="kr.co.sist.kjy_prj.member.domain.MemberDomain" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" info="" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<link rel="stylesheet" href="http://localhost/css/cgv_prj.css">
-<link rel="stylesheet" href="http://localhost/css/movie_chart.css">
-<link rel="stylesheet" href="http://localhost/css/module.css">
-<link rel="stylesheet" href="http://localhost/css/reset.css">
-<link rel="stylesheet" href="http://localhost/css/layout.css">
-<link rel="stylesheet" href="http://localhost/css/base.css">
-<link rel="stylesheet" href="http://localhost/css/cgv.min.css"/>
-<link rel="stylesheet" href="http://localhost/css/webfont.css"/>
+<link rel="stylesheet" href="http://kjy.sist.co.kr/css/cgv_prj.css">
+<link rel="stylesheet" href="http://kjy.sist.co.kr/css/movie_chart.css">
+<link rel="stylesheet" href="http://kjy.sist.co.kr/css/module.css">
+<link rel="stylesheet" href="http://kjy.sist.co.kr/css/reset.css">
+<link rel="stylesheet" href="http://kjy.sist.co.kr/css/layout.css">
+<link rel="stylesheet" href="http://kjy.sist.co.kr/css/base.css">
+<link rel="stylesheet" href="http://kjy.sist.co.kr/css/cgv.min.css"/>
+<link rel="stylesheet" href="http://kjy.sist.co.kr/css/webfont.css"/>
 <div id="header">
     <div id="CGV_header" >
         <div class="contents">
             <!-- 왼쪽 로고 -->
             <div>
-                <a href="/"><img src="http://localhost/images/logoRed.png" alt="CGV" style="width: 200px; height: 90px"></a>
+                <a href="/"><img src="http://kjy.sist.co.kr/images/logoRed.png" alt="CGV" style="width: 200px; height: 90px"></a>
                 <span style="margin-left: 20px; font-weight: bold;">DEEP DIVE SPACE</span>
             </div>
             <!-- 오른쪽 링크 -->
@@ -45,6 +45,10 @@
                         <img src="https://img.cgv.co.kr/R2014/images/common/ico/loginPassword.png" alt="로그인" style="width: 50px; height: 50px;">
                         <div>로그인</div>
                     </a>
+                    <a href="/join" style="display: inline-block; text-align: center;">
+                        <img src="https://img.cgv.co.kr/R2014/images/common/ico/loginJoin.png" alt="회원가입" style="width: 50px; height: 50px;">
+                        <div>회원가입</div>
+                    </a>
                     <% } %>
                 </div>
             </div>
@@ -54,18 +58,20 @@
         <nav class="main-menu" style="font-size: 35px; font-weight: bold; border-bottom: 2px solid #fb4357 ">
             <ul>
                 <li>
-                    <a href="#">영화</a>
+                    <a href="/movie_chart">영화</a>
                     <div class="submenu">
                         <ul>
-                            <li><a href="#">영화</a></li>
+                            <li><a href="/movie_chart">무비차트</a></li>
+                            <li><a href="/preMovie_chart">상영예정 영화</a></li>
+
                         </ul>
                     </div>
                 </li>
                 <li>
-                    <a href="#">극장</a>
+                    <a href="/theater">극장</a>
                     <div class="submenu">
                         <ul>
-                            <li><a href="#">CGV 극장</a></li>
+                            <li><a href="/theater">CGV 극장</a></li>
                         </ul>
                     </div>
                 </li>

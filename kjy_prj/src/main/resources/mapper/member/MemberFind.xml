@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.co.sist.cgv_prj.member.login.MemberLoginDAO">
+<mapper namespace="kr.co.sist.kjy_prj.member.login.MemberLoginDAO">
 
     <select id="selectMemberId" parameterType="kr.co.sist.kjy_prj.member.vo.MemberFindIdVO" resultType="kr.co.sist.kjy_prj.member.domain.MemberFindDomain">
         SELECT member_id, name

@@ -23,7 +23,6 @@ public class DashboardController {
 	private DashboardServiceImpl ds;
 	
 	@RequestMapping(value="/admin/dashboard", method = {GET, POST})
-	//@ResponseBody
 	public String dashboard(
 							HttpServletRequest request,
 							Model model) {

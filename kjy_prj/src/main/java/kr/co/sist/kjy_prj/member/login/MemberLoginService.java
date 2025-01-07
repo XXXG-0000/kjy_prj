@@ -41,6 +41,16 @@ public class MemberLoginService {
         this.mailSender = mailSender;
     }
 
+    public boolean memberChkFlag(MemberVO memberVO){
+        Optional<MemberEntity> entityOptional = er.findById(memberVO.getMember_id());
+        if(entityOptional.isPresent()){
+            MemberEntity memberEntity = entityOptional.get();
+            return !memberEntity.getMember_f().equals("Y");
+        }
+        return true;
+    }
+
+
     /**
      * 사용자 정보를 가지고 로그인을 수행하는 BL
      *
@@ -50,6 +60,7 @@ public class MemberLoginService {
     public MemberDomain memberLogin(MemberVO memberVO) {
         // 사용자 아이디로 Entity 조회
         Optional<MemberEntity> entityOptional = er.findById(memberVO.getMember_id());
+
 
         // 비밀번호 인코더 초기화
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -373,6 +384,8 @@ public class MemberLoginService {
             }
         }
     }
+
+
 
 
 

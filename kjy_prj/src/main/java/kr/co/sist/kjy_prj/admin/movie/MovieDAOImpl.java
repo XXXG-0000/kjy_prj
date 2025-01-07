@@ -385,9 +385,7 @@ public class MovieDAOImpl implements MovieDAO {
 		SqlSession handler = mbh.getHandler();
 		
 		try {
-			System.out.println("asdf");
 			cnt = handler.update("kjy_prj.admin.movie.updateScreening", movie_num);
-			System.out.println("fdsa");
 			System.out.println(cnt);
 			
 			if(cnt != 0) {

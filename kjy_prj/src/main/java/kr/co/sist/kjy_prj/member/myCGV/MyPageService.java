@@ -1,12 +1,15 @@
 package kr.co.sist.kjy_prj.member.myCGV;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import kr.co.sist.kjy_prj.member.crypto.CryptoService;
 import kr.co.sist.kjy_prj.member.domain.MyLikeMovieDomain;
 import kr.co.sist.kjy_prj.member.domain.MyReviewDomain;
 import kr.co.sist.kjy_prj.member.domain.MyViewDomain;
 import kr.co.sist.kjy_prj.member.domain.ReservationDomain;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -19,10 +22,12 @@ import java.util.List;
 public class MyPageService {
 
     private MyPageMapper rm;
+    private CryptoService cs;
 
     @Autowired
-    public MyPageService(MyPageMapper reservationMapper) {
+    public MyPageService(MyPageMapper reservationMapper, CryptoService cs) {
         this.rm = reservationMapper;
+        this.cs = cs;
     }
 
 
@@ -71,5 +76,29 @@ public class MyPageService {
     public ReservationDomain searchOneMemberReservation(String member_id){
         return rm.selectReservationOne(member_id);
     }
+
+
+    public boolean removePreEgg(int egg_num){
+        int rowCnt = rm.deleteMyLikeMovie(egg_num);
+        return rowCnt > 0;
+    }
+
+    public boolean searchMemberPass(String member_id,String password){
+       String oriPass =  rm.selectMemberPassword(member_id);
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.matches(password, oriPass);
+    }
+
+    public boolean verifyEmail(String member_id, String email){
+        String oriEmail = rm.selectMemberEmail(member_id);
+        boolean flag = email.equals(cs.decrypt(oriEmail));
+        return flag;
+    }
+
+    public boolean removeReview(int review_num){
+        int rowCnt = rm.deleteMyReview(review_num);
+        return rowCnt > 0;
+    }
+
 
 } // MyPageService 끝 

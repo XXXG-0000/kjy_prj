@@ -21,7 +21,6 @@ public class MailConfig {
         mailSender.setHost("smtp.naver.com");
         mailSender.setPort(587);
         mailSender.setUsername("turofun0301@naver.com");
-        mailSender.setPassword("03010301My!"); // 나중에 꼭 삭제
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.smtp.auth", "true");

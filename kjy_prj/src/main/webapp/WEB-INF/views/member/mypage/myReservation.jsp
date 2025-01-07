@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>나의 예매내역</title>
-    <link rel="stylesheet" href="http://localhost/css/main_20240911.css">
+    <link rel="stylesheet" href="http://kjy.sist.co.kr/css/main_20240911.css">
 
     <!--bootstrap CDN-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -54,7 +54,7 @@
                 </c:if>
                 <p style="font-size: 25px; float: left; margin-top: 55px; margin-left: 20px"><c:out
                         value="닉네임 : ${sessionScope.memberInfo.nickname}"/></p>
-                <img src="http://localhost/images/pen.png" alt=""
+                <img src="http://kjy.sist.co.kr/images/pen.png" alt=""
                      style="width: 25px; height: 25px; margin-top: 50px; margin-left: 10px; border-bottom: 2px solid #222222; cursor: pointer"
                      onclick="location.href='/myPage/information/myInformation'">
             </div>

@@ -157,7 +157,7 @@
 		insert into
 		screening_info(sc_num,	th_num, movie_num, sc_date, sc_time, sc_end_time)
 		values((select nvl(max(sc_num), 0) + 1 from screening_info), 
-		1, #{ movie_num }, #{ sc_date }, 
+		#{ th_num }, #{ movie_num }, #{ sc_date }, 
 		(select to_date(#{ sc_time_str },'yyyy-mm-dd hh24:MI:ss') FROM DUAL), 
 		(select to_date(#{ sc_end_time_str },'yyyy-mm-dd hh24:MI:ss') FROM DUAL) )
 	</insert>

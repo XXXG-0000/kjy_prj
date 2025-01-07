@@ -1,14 +1,15 @@
 package kr.co.sist.kjy_prj.member.main;
+import kr.co.sist.kjy_prj.member.domain.MainMovieDomain;
+import kr.co.sist.kjy_prj.member.domain.MovieDomain;
+import kr.co.sist.kjy_prj.member.domain.MovieOneDomain;
+import kr.co.sist.kjy_prj.member.domain.ReviewDomain;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import kr.co.sist.kjy_prj.member.domain.MainMovieDomain;
-import kr.co.sist.kjy_prj.member.domain.MovieDomain;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 /**
@@ -59,6 +60,12 @@ public class MainService {
         return list;
     }
 
+
+
+
+
+
+
     /**
      * 메인화면에 보여질 영상 개수를 가져오는 메소드
      * @return
@@ -91,6 +98,28 @@ public class MainService {
 
         return movie;
     }
+
+
+    public MovieOneDomain getOneMovie(int movie_num){
+       return mainDAO.selectOneMovie(movie_num);
+    }
+
+    public List<ReviewDomain> getMovieAllReviews(int movie_num){
+        return mainDAO.selectMovieReview(movie_num);
+    }
+
+    public List<String> getMoiveStillCut(int movie_num) {
+        return mainDAO.selectMovieStilCut(movie_num);
+    }
+
+
+    @Transactional(rollbackFor = PersistenceException.class)
+    public boolean addPreEgg(int movie_num, String member_id){
+        int rowCnt = mainDAO.insertEgg(movie_num, member_id);
+        return rowCnt > 0;
+    }
+
+
 
 
 } // MainService 끝 

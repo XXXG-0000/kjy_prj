@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>기대되는 영화</title>
-    <link rel="stylesheet" href="http://localhost/css/main_20240911.css">
+    <link rel="stylesheet" href="http://kjy.sist.co.kr/css/main_20240911.css">
 
     <!--bootstrap CDN-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -88,6 +88,28 @@
             }
         });
     }); //ready
+
+
+    function clickCan(egg_num) {
+        if (confirm("삭제하시겠습니까?")) {
+            $.ajax({
+                url: "/myPage/movieList/delete/"+ egg_num,
+                error: function (xhr) {
+                    console.error(xhr.status);
+                    console.error(xhr.statusMessage);
+                },
+                success: function (data) {
+                    if (data) {
+                        alert("삭제되었습니다.");
+                        location.href="/myPage/movieList"
+
+                    } else {
+                        alert("삭제 도중 문제가 발생했습니다. 잠시후 다시시도 해주세요.");
+                    }
+                }
+            })
+        }
+    }
 </script>
 <body>
 <div id="wrap"
@@ -100,7 +122,7 @@
                      style="width: 80%; height: 30%; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
                     <img src="/upload/${sessionScope.memberInfo.profile}" class="profile-image">
                     <div class="box-text" style="margin-top: 20px;">
-                        <c:out value="${sessionScope.memberInfo.name}"/> <img src="http://localhost/images/pen.png"
+                        <c:out value="${sessionScope.memberInfo.name}"/> <img src="http://kjy.sist.co.kr/images/pen.png"
                                                                               alt="" style="width: 20px; height: 20px;">
                     </div>
                 </div>
@@ -141,14 +163,18 @@
                             <c:when test="${not empty myLike}">
                                 <c:forEach items="${myLike}" var="movie" varStatus="i">
                                     <div class="card">
-                                        <div><a href="javascript:alert('취소하시겠습니까?')" style="padding-left: 220px">X</a>
+                                        <div><a href="javascript:clickCan(${movie.egg_num})"
+                                                style="padding-left: 220px">X</a>
                                         </div>
                                         <img src="${movie.main_image}" style="width: 230px; height: 300px;">
                                         <div class="card-movie-info">
                                             <p class="card-movie-title"><c:out value="${movie.title_k}"/></p>
                                             <p class="card-movie-release">개봉일: <c:out
                                                     value="${movie.release_date}"/></p>
-                                            <button class="card-movie-detail" onclick="javascript:alert(${movie.movie_num})">상세보기</button>
+                                            <button class="card-movie-detail"
+                                                    onclick="javascript:location.href='/movie/detail/${movie.movie_num}'">
+                                                상세보기
+                                            </button>
                                         </div>
                                     </div>
                                 </c:forEach>

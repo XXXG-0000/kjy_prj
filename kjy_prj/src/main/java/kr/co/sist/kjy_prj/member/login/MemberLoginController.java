@@ -51,6 +51,11 @@ public class MemberLoginController {
     public String loginProc(MemberVO memberVO, Model model) {
 
         // md가 null이 아니면 회원 정보가 있다는 것이다.
+        boolean flag = ms.memberChkFlag(memberVO);
+        if (!flag){
+            model.addAttribute("errorMsg", "탈퇴한 회원입니다.");
+            return "member/login/login_page";
+        }
         MemberDomain md = ms.memberLogin(memberVO);
         if (md != null) {
             // 로그인 성공: MemberDomain 객체를 모델에 추가
@@ -66,9 +71,7 @@ public class MemberLoginController {
 
     @GetMapping("/findId")
     public String findIdPage(){
-
         return "member/login/find_id";
-
     }
 
     @PostMapping("/findIdProc")
@@ -100,7 +103,6 @@ public class MemberLoginController {
         redirectAttributes.addFlashAttribute("errorMsg", "이메일로 아이디 찾기 중 문제가 발생했습니다. 잠시 후 다시 시도 해주세요.");
         return "redirect:/login/findId";
     }
-
 
     @GetMapping("/findPass")
     public String findPassPage(){
@@ -152,7 +154,7 @@ public class MemberLoginController {
         String newPass = ms.generateRandomPassword(); // 새로 업데이트 된 패스워드.
         System.out.println(newPass);
         if (newPass.isEmpty()){
-            redirectAttributes.addFlashAttribute("errorMsg", "비밀번호 재발급 중 문제가 발생했습니다. 잠시후 다시 시도 해주세요.111");
+            redirectAttributes.addFlashAttribute("errorMsg", "비밀번호 재발급 중 문제가 발생했습니다. 잠시후 다시 시도 해주세요.");
             return "redirect:/login/findPass";
         }
 
@@ -160,7 +162,7 @@ public class MemberLoginController {
         //3. 비밀번호 업데이트
         boolean flag2 = ms.makeNewPassword2(member_id, newPass);
         if (!flag2){
-            redirectAttributes.addFlashAttribute("errorMsg", "비밀번호 재발급 중 문제가 발생했습니다. 잠시후 다시 시도 해주세요.2222");
+            redirectAttributes.addFlashAttribute("errorMsg", "비밀번호 재발급 중 문제가 발생했습니다. 잠시후 다시 시도 해주세요.");
             return "redirect:/login/findPass";
         }
 

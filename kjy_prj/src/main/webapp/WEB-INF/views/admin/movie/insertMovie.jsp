@@ -658,15 +658,14 @@
 		
 		        <form name="insertFrm" id="insertFrm" method="post" action="/admin/movie/insert_movie_process">    
 		            <label for="movie-name">영화 제목</label>
-		            <input type="text" id="title_k" name="title_k" value="소방관" placeholder="영화 제목을 입력하세요">
+		            <input type="text" id="title_k" name="title_k" value="" placeholder="영화 제목을 입력하세요">
 		            <label for="movie-name">영화 영제목</label>
-		            <input type="text" id="title_e" name="title_e" value="FIREFIGHTERS" placeholder="영화 영제목을 입력하세요">
+		            <input type="text" id="title_e" name="title_e" value="" placeholder="영화 영제목을 입력하세요">
 		            <label for="movie-name">영화 부제목</label>
-		            <input type="text" id="subtitle" name="subtitle" value="FIRST IN, LAST OUT 가장 먼저 들어가서 가장 마지막에 나온다
-		            " placeholder="영화 부제목을 입력하세요">
+		            <input type="text" id="subtitle" name="subtitle" value="" placeholder="영화 부제목을 입력하세요">
 		            <label for="genre-name">장르</label>
 		            <input type="button" id="add_genre" class="btn btn-secondary btn-sm" value="장르 추가" >
-		            <input type="text" id="genre" value="드라마" placeholder="장르를 입력하세요(예: 액션, 스릴러)">
+		            <input type="text" id="genre" value="" placeholder="장르를 입력하세요(예: 액션, 스릴러)">
 		            <div class="genre_chk" style="margin-top: 10px;">
 		            </div>
 		            <label for="drink-name">관람 등급</label>
@@ -675,20 +674,20 @@
 								<option value="">-선택-</option>
 								<option value="4">전체관람가</option>
 								<option value="3">7세</option>
-								<option value="2" selected="selected">12세</option>
+								<option value="2">12세</option>
 								<option value="1">15세</option>
 								<option value="0">19세</option>
 								</select>
 		            </div>
 		            <label for="price">가격</label>
-		            <input type="text" id="price" name="price" value='10000' placeholder="가격을 입력하세요">
+		            <input type="text" id="price" name="price" value='' placeholder="가격을 입력하세요">
 		            <label for="showtime">상영 시간</label>
-		            <input type="text" id="showtime" name="showtime" value="106" placeholder="상영 시간을 입력하세요">
+		            <input type="text" id="showtime" name="showtime" value="" placeholder="상영 시간을 입력하세요">
 		            <label for="release_date">개봉일</label>
 		            <input type="date" id="release_date" name="release_date" value=""><br>
 		            <label for="country_name">제작 국가</label>
 		            <input type="button" id="add_country" class="btn btn-secondary btn-sm" value="국가 추가">
-		            <input type="text" id="country" name="country" value="한국" placeholder="국가명을 입력하세요">
+		            <input type="text" id="country" name="country" value="" placeholder="국가명을 입력하세요">
 		            <div class="country_chk" style="margin-top: 10px;">
 		            </div>
 
@@ -709,7 +708,7 @@
 		            <label for="dir">감독</label>
 		            <input type="button" class="btn btn-secondary btn-sm" id="addDir" value="감독 추가">
 		            <input type="hidden" class="hidden_dir" value="1">
-		            <div>이름 <input type="text" class="director_name_arr" name="s_name_arr" value="곽경택" placeholder="감독의 이름을 입력하세요" style="width: 300px;"></div>
+		            <div>이름 <input type="text" class="director_name_arr" name="s_name_arr" value="" placeholder="감독의 이름을 입력하세요" style="width: 300px;"></div>
 		            <div class="dir_area">
 		                <img id="dir_image_preview" src="#" alt="이미지 미리보기" style="display: none;" title="새 파일">
 		                이미지 <input type="file" class="dir_image_preview" name="s_image_arr" accept="image/*" onchange="previewDirectorImage(this)" style="width: 300px;">

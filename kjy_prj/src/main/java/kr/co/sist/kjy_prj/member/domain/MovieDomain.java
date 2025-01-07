@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Date;
+
 /**
  * @author : user
  * @fileName : MovieDomain
@@ -17,13 +19,20 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MovieDomain {
 
-
-
     private Long movie_num;
     private String title_k;
     private Double rate;
     private String audience_rating;
     private String main_image;
+    private Date release_date;
+
+    public Date getRelease_date() {
+        return release_date;
+    }
+
+    public void setRelease_date(Date release_date) {
+        this.release_date = release_date;
+    }
 
     public String getAudience_rating() {
         return audience_rating;

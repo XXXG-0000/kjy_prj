@@ -28,8 +28,8 @@
     <style type="text/css">
         td {
             height: 50px;
-            padding-bottom: 20px;
         }
+
 
         .myPut {
             border: 1px solid #DEDEDE;
@@ -42,7 +42,20 @@
     <script type="text/javascript">
         let idDupFlag = false; // 중복 확인 플래그
 
+
         $(function () {
+            $("#capsWarning").hide();
+
+
+            $("#password1").on("keydown", function (event) {
+                if (event.originalEvent.getModifierState("CapsLock")) {
+                    $("#capsWarning").show();
+                } else {
+                    $("#capsWarning").hide();
+                }
+            });
+
+
             $("#btnSubmit").click(function () {
                 if (!chkFiled()) return false;
                 if (!idDupFlag) {
@@ -76,26 +89,28 @@
         });
 
         function chkFiled() {
-
             const memberId = $("#member_id").val();
-            // 공백과 특수 문자를 제거 (정규 표현식 사용)
-            const cleanedMemberId = memberId.replace(/[^a-zA-Z0-9]/g, ''); // 영문자와 숫자만 남기고 제거
+            const password1 = $("input[name='password1']").val();
+            const password2 = $("input[name='password2']").val();
 
-            if (cleanedMemberId.length < 8) {
-                alert("아이디는 8자 이상이어야 합니다.");
+            // 아이디 유효성 검사
+            const idRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{8,}$/;
+            if (!idRegex.test(memberId)) {
+                alert("아이디는 영어 대,소문자와 숫자를 포함하며 8자 이상이어야 합니다.");
                 idDupFlag = false;
                 $("#member_id").focus();
                 return false;
             }
 
-            // 비밀번호 확인 및 유효성 검증
-            const password1 = $("input[name='password1']").val();
-            const password2 = $("input[name='password2']").val();
-            if (password1.length < 10) {
-                alert("비밀번호는 10자리 이상이어야 합니다.");
+            // 비밀번호 유효성 검사
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{10,}$/;
+            if (!passwordRegex.test(password1)) {
+                alert("비밀번호는 숫자, 영어 대문자, 소문자를 포함하며 10자 이상이어야 합니다.");
                 $("input[name='password1']").focus();
                 return false;
             }
+
+            // 비밀번호 확인
             if (password1 !== password2) {
                 alert("비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
                 $("input[name='password2']").val("");
@@ -104,7 +119,7 @@
             }
             $("input[name='password']").val(password1); // hidden에 설정
 
-            // 이메일 조합 및 검증
+            // 나머지 필드 검사 (이메일, 전화번호 등)
             const email1 = $("input[name='email1']").val();
             const email2 = $("select[name='email2']").val();
             if (email1 === "") {
@@ -117,25 +132,20 @@
                 return false;
             }
             const email = email1 + "@" + email2;
-            $("input[name='email']").val(email); // hidden에 설정
+            $("input[name='email']").val(email);
 
-            // 생년월일 유효성 검사
             const birth = $("#inputBirth").val();
-
             if (!birth) {
                 alert("생년월일을 입력해주세요.");
                 $("#inputBirth").focus();
                 return false;
             }
+            const formattedDate = birth.replace(/-/g, '');
+            $("input[name='birth']").val(formattedDate);
 
-            var formattedDate = birth.replace(/-/g, ''); // yyyy-mm-dd -> yyyymmdd
-            $("input[name='birth']").val(formattedDate); // 변경된 값 폼에 설정
-
-            // 전화번호 조합 및 검증
             const phone1 = $("#phone1").val();
             const phone2 = $("input[name='phone2']").val();
             const phone3 = $("input[name='phone3']").val();
-
             if (!/^[0-9]{3,4}$/.test(phone2)) {
                 alert("전화번호 가운데 자리를 정확히 입력해주세요.");
                 $("input[name='phone2']").focus();
@@ -146,9 +156,8 @@
                 $("input[name='phone3']").focus();
                 return false;
             }
-
             const phone = phone1 + "-" + phone2 + "-" + phone3;
-            $("input[name='phone']").val(phone); // hidden에 설정
+            $("input[name='phone']").val(phone);
 
             return true;
         }
@@ -181,7 +190,7 @@
 </head>
 <body>
 <div id="wrap"
-     style="min-height: 900px;  margin-top: 50px; display: flex; flex-direction: column; align-items: center  ">
+     style="min-height: 1000px;  margin-top: 50px; display: flex; flex-direction: column; align-items: center  ">
     <jsp:include page="/WEB-INF/views/member/common/header.jsp"/>
     <form action="/join/joinProc" name="joinFrm" id="joinFrm" method="post" style="width: 550px">
         <div style="text-align: center; margin: 30px 30px 30px 30px">
@@ -189,46 +198,49 @@
             <table style="margin-top: 40px">
                 <!-- id 입력 -->
                 <tr>
-                    <td><span class="required line">*</span><label>아이디</label></td>
-                    <td style="float: left">
-                        <input type="text" class="myPut" name="member_id" id="member_id" value="testtest">
-                        <input type="button" value="아이디 중복 확인" class="btnSubmit" id="memberIdDup" >
+                    <td ><span class="required line">*</span><label>아이디</label></td>
+                    <td style="float: left; margin-top: 10px">
+                        <input type="text" style="border: 1px solid #DEDEDE; height: 37px; border-radius: 5px;padding-left: 10px;" name="member_id" id="member_id" value="testtest">
+                        <input type="button" value="아이디 중복 확인" class="btnSubmit" id="memberIdDup">
                     </td>
                 </tr>
                 <tr>
                     <td class="line"><span class="required">*</span>비밀번호</td>
-                    <td style="float: left">
-                        <input type="password" class="myPut" name="password1" value="testtest00">
+                    <td style="float: left; margin-top: 10px">
+                        <input type="password" style="border: 1px solid #DEDEDE; height: 37px; border-radius: 5px;padding-left: 10px;" name="password1" id="password1" value="testtest00">
+                        <div id="capsWarning" style="display: none; color: red; margin-top: 5px;">
+                            Caps Lock이 켜져있습니다.
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <td class="line"><span class="required">*</span>비밀번호 확인</td>
 
-                    <td style="float: left">
-                        <input type="password" class="myPut" name="password2" value="testtest00">
+                    <td style="float: left; margin-top: 10px">
+                        <input type="password" style="border: 1px solid #DEDEDE; height: 37px; border-radius: 5px;padding-left: 10px;" name="password2" value="testtest00">
                     </td>
                 </tr>
                 <tr>
                     <td class="line"><span class="required">*</span>이름</td>
-                    <td style="float: left">
-                        <input type="text" class="myPut" name="name" value="테스트">
+                    <td style="float: left; margin-top: 10px">
+                        <input type="text" style="border: 1px solid #DEDEDE; height: 37px; border-radius: 5px;padding-left: 10px;" name="name" value="테스트">
                     </td>
                 </tr>
                 <tr>
                     <td class="line"><span class="required">*</span>생년월일</td>
-                    <td style="float: left">
+                    <td style="float: left; margin-top: 10px">
                         <!-- 생년월일 입력 필드 -->
-                        <input type="date" id="inputBirth">
+                        <input type="date" id="inputBirth" style="border: 1px solid #DEDEDE; height: 37px; border-radius: 5px;padding-left: 10px;">
                     </td>
                 </tr>
                 <tr>
                     <td class="line"><span class="required"></span>닉네임</td>
-                    <td style="float: left"><input type="text" class="myPut" name="nickname" value="테테귀여워">
+                    <td style="float: left; margin-top: 10px"><input type="text" style="border: 1px solid #DEDEDE; height: 37px; border-radius: 5px;padding-left: 10px;" name="nickname"  value="테테귀여워">
                     </td>
                 </tr>
                 <tr>
                     <td class="line"><span class="required">*</span>전화번호</td>
-                    <td style="float: left">
+                    <td style="float: left; margin-top: 10px">
                         <select id="phone1" name="phone1" class="inputBox" style="width: 60px">
                             <option value="010">010</option>
                             <option value="011">011</option>
@@ -242,7 +254,7 @@
                 </tr>
                 <tr>
                     <td class="line"><span class="required">*</span>이메일</td>
-                    <td style="float: left">
+                    <td style="float: left; margin-top: 10px">
                         <input type="email" class="myPut" style="width: 100px" required name="email1"
                         > @
                         <select size="1" class="inputBox" name="email2">
@@ -277,7 +289,6 @@
             <input type="button" id="btnSubmit" value="가입" class="btnSubmit">
             <input type="button" id="btnReset" value="취소" class="btnMyReset">
         </div>
-
     </form>
 </div>
 <jsp:include page="/WEB-INF/views/member/common/footer.jsp"/>

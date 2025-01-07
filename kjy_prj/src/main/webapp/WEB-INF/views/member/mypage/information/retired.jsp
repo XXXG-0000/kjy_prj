@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>회원탈퇴</title>
-    <link rel="stylesheet" href="http://localhost/css/main_20240911.css">
+    <link rel="stylesheet" href="http://kjy.sist.co.kr/css/main_20240911.css">
 
     <!--bootstrap CDN-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -31,10 +31,23 @@
             $("#retireBtn").click(function () {
                 //TODO 추후 BL도 추가할 예정
                 if (confirm("정말로 [KJY] 해택을 포기하고, 회원을 탈퇴하시겠습니까?")) {
-                    alert("탈퇴되셨습니다.");
-                    location.href = "/logout";
+                    $.ajax({
+                        url:"/myPage/information/" + '${sessionScope.memberInfo.member_id}',
+                        error: function (xhr) {
+                            console.error(xhr.status);
+                            console.error(xhr.statusMessage)
+                        },
+                        success: function (data) {
+                            if(data){
+                                alert("탈퇴되셨습니다.");
+                                location.href = "/logout";
+                            }else{
+                                alert("탈퇴시도 중 문제가 발생했습니다. 잠시후 다시시도 해주세요.");
+                                location.href = "/myPage";
+                            }
+                        }
+                    })
                 }
-                location.href = "/myPage";
             });
         });
     </script>
@@ -56,7 +69,7 @@
                     <p style="font-size: 20px; float: left; margin-top: 55px; margin-left: 20px">닉네임 : 닉네임을 설정해주세요. </p>
                 </c:if>
                 <p style="font-size: 25px; float: left; margin-top: 55px; margin-left: 20px"><c:out value="닉네임 : ${sessionScope.memberInfo.nickname}"/></p>
-                <img src="http://localhost/images/pen.png" alt=""
+                <img src="http://kjy.sist.co.kr/images/pen.png" alt=""
                      style="width: 25px; height: 25px; margin-top: 50px; margin-left: 10px; border-bottom: 2px solid #222222; cursor: pointer" onclick="location.href='/myPage/information/myInformation'">
             </div>
             <div style=" height: 250px; width: 80%; display: flex; flex-direction: column; align-items: center; ">

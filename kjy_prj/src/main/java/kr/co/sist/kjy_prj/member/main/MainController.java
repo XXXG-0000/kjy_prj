@@ -51,7 +51,6 @@ public class MainController {
         return "index";
     }
 
-
     /**
      * 사용자 세션을 무효화
      * @param session

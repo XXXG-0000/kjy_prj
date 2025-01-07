@@ -1,10 +1,9 @@
 package kr.co.sist.kjy_prj.member.myCGV.information;
 
-import org.apache.ibatis.annotations.*;
-
 import kr.co.sist.kjy_prj.member.domain.MemberDomain;
 import kr.co.sist.kjy_prj.member.vo.MemberModifyPassVO;
 import kr.co.sist.kjy_prj.member.vo.MemberModifyVO;
+import org.apache.ibatis.annotations.*;
 
 /**
  * @author : user
@@ -39,7 +38,8 @@ public interface MyInformationDAO {
                            @Param("review") String review,
                            @Param("review_num") int review_num);
 
-
+    @Update("update member set member_f='Y' where MEMBER_ID=#{member_id} ")
+    int updateMemberFlag(String member_id);
 
 
 }

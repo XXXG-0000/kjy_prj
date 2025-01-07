@@ -26,7 +26,9 @@
 <div id="wrap"
      style="min-height: 400px;  margin-top: 50px; display: flex; flex-direction: column; align-items: center; ">
     <jsp:include page="/WEB-INF/views/member/common/header.jsp"/>
+
     <c:if test="${not empty errorMsg}">
+
         <script>
             alert('${errorMsg}');
         </script>

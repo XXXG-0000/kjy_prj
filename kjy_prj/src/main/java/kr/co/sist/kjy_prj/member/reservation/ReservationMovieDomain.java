@@ -25,4 +25,7 @@ public class ReservationMovieDomain {
 	private int audience_rating; // 연령제한
 	private double rate;	
 	private String g_name;
+	private int total_seat;
+	private String sc_time_str;
+	private String sc_end_time_str;
 }

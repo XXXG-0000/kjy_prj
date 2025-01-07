@@ -30,10 +30,10 @@
 
 <!-- dashboard.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script type="text/javascript" src="http://localhost/admin_js/dashboard.js"></script>
+<script type="text/javascript" src="http://kjy.sist.co.kr/admin_js/dashboard.js"></script>
 
 <!-- 외부 CSS -->
-<link rel="stylesheet" href="http://localhost/admin_css/common.css">
+<link rel="stylesheet" href="http://kjy.sist.co.kr/admin_css/common.css">
 
 <style type="text/css">
 #sideMenuContainer {
@@ -148,7 +148,11 @@ span{
 					<c:forEach var="dmd" items="${ listMovie }" varStatus="i">
 					<div class="swiper-slide">
 						<img src="${ dmd.main_image }" alt="Movie 1" style="width: 100px; height: 140px;">
-						<div class="title">${ dmd.title_k }</div>
+						<div class="title">
+						<a href="/admin/movie/movie_detail?movie_num=${ dmd.movie_num }">
+						${ dmd.title_k }
+						</a>
+						</div>
 						<span>${ dmd.subtitle }</span><br>
 						<span class="genre">${ dmd.g_name }</span> · <span class="time">${ dmd.showtime }</span><span>분</span>
 						<br/>

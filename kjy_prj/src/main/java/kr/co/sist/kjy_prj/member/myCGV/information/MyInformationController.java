@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpSession;
 import kr.co.sist.kjy_prj.member.domain.MemberDomain;
 import kr.co.sist.kjy_prj.member.vo.MemberModifyPassVO;
 import kr.co.sist.kjy_prj.member.vo.MemberModifyVO;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -170,6 +169,11 @@ public class MyInformationController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류가 발생했습니다.");
     }
 
+    @GetMapping("/{member_id}")
+    @ResponseBody
+    public boolean retired(@PathVariable(name = "member_id") String member_id) {
+        return mis.modifyMemberFlag(member_id);
+    }
 
 
 

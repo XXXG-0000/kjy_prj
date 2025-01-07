@@ -34,17 +34,21 @@
 	<typeAlias type="kr.co.sist.kjy_prj.admin.movie.SearchVO" alias="searchVO"/>
 	
 	<!-- 사용자 -->
+	<typeAlias type="kr.co.sist.kjy_prj.member.reservation.ReservationMovieDomain" alias="reservationMovieDomain"/>
+	<typeAlias type="kr.co.sist.kjy_prj.member.reservation.ReservationScreeningInfoDomain" alias="reservationScreeningInfoDomain"/>
+	<typeAlias type="kr.co.sist.kjy_prj.member.reservation.ReservationMovieVO" alias="reservationMovieVO"/>
+	<typeAlias type="kr.co.sist.kjy_prj.member.reservation.ReservationScreeningInfoVO" alias="reservationScreeningInfoVO"/>
 	
 	
 	<!-- 관리자 회원관리 VO, Domain -->
-	<typeAlias type="kr.co.sist.admin.kjy_prj.member.AdminMemberDomain" alias="adminMemberDomain"/>
-	<typeAlias type="kr.co.sist.admin.kjy_prj.member.AdminMemberVO" alias="adminMemberVO"/>
-	<typeAlias type="kr.co.sist.admin.kjy_prj.member.AdminMemberSearchVO" alias="adminMemberSearchVO"/>
+	<typeAlias type="kr.co.sist.kjy_prj.admin.member.AdminMemberDomain" alias="adminMemberDomain"/>
+	<typeAlias type="kr.co.sist.kjy_prj.admin.member.AdminMemberVO" alias="adminMemberVO"/>
+	<typeAlias type="kr.co.sist.kjy_prj.admin.member.AdminMemberSearchVO" alias="adminMemberSearchVO"/>
 	
 	<!-- 관리자 예매관리 VO, Domain -->
-	<typeAlias type="kr.co.sist.admin.kjy_prj.reservation.AdminReservationDomain" alias="adminReservationDomain"/>
-	<typeAlias type="kr.co.sist.admin.kjy_prj.reservation.AdminReservationVO" alias="adminReservationVO"/>
-	<typeAlias type="kr.co.sist.admin.kjy_prj.reservation.AdminReservationSearchVO" alias="adminReservationSearchVO"/>
+	<typeAlias type="kr.co.sist.kjy_prj.admin.reservation.AdminReservationDomain" alias="adminReservationDomain"/>
+	<typeAlias type="kr.co.sist.kjy_prj.admin.reservation.AdminReservationVO" alias="adminReservationVO"/>
+	<typeAlias type="kr.co.sist.kjy_prj.admin.reservation.AdminReservationSearchVO" alias="adminReservationSearchVO"/>
 
 </typeAliases>
   <environments default="development">
@@ -63,9 +67,11 @@
     <mapper resource="kr/co/sist/kjy_prj/admin/login/loginMapper.xml"/>
 	<mapper resource="kr/co/sist/kjy_prj/admin/member/adminMemberMapper.xml"/>
     <mapper resource="kr/co/sist/kjy_prj/admin/movie/movieMapper.xml"/>
+    <mapper resource="kr/co/sist/kjy_prj/member/reservation/reservationMapper.xml"/>
     <mapper resource="kr/co/sist/kjy_prj/admin/reservation/adminReservationMapper.xml"/>
     <mapper resource="mapper/member/MemberFind.xml"/>
     <mapper resource="mapper/member/MyMovieMapper.xml"/>
     <mapper resource="mapper/member/MyPageMapper.xml"/>
+    <mapper resource="mapper/member/MovieMapper.xml"/>
   </mappers>
 </configuration>
