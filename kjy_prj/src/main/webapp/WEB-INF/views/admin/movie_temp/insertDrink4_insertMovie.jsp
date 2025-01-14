@@ -583,12 +583,11 @@
 		
 		            
 		        <!-- 제출 버튼 -->
-        <button type="button" class="btn btn-primary" id="addMovie">영화 추가</button>
-	</div>
-    </form>
+        		<button type="button" class="btn btn-primary" id="addMovie">영화 추가</button>
+   			</form>
+		</div>
+	</main>
 </div>
-        </main>
-    </div>
 </div>
 <script src="bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 

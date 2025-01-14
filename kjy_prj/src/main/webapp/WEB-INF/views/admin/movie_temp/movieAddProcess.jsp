@@ -32,12 +32,12 @@ $(function(){
 }); // ready
 <c:choose>
 <c:when test="${ flag eq false }">
-alert(<c:out value="${ msg }"/>)
+alert(<c:out value="${ msg }"/>);
 javascript:history.back();
 </c:when>
 <c:otherwise>
-alert(<c:out value="${ msg }"/>)
-location.href="/movie/movie_list"
+alert(<c:out value="${ msg }"/>);
+location.href="/movie/movie_list";
 </c:otherwise>
 </c:choose>
 

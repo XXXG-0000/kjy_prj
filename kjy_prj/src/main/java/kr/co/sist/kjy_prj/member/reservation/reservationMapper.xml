@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kjy_prj.member.reservation">
+
+<select id="selectScreeningMovie" resultType="reservationMovieDomain">
+	select title_k, audience_rating
+	from movie
+	where screening_f = '1' and remove_f='N'
+	order by movie_num
+</select>
+
+<select id="selectMovieInfo" resultType="reservationMovieDomain" parameterType="reservationMovieVO">
+	select main_image, title_k
+	from movie
+	where instr(#{ title_k }, title_k) > 0
+</select>
+
+<select id="selectScDate" resultType="reservationScreeningInfoDomain" parameterType="reservationScreeningInfoVO">
+	select TO_CHAR(sc_date, 'YYYY.MM.DD(dy)') AS sc_date_str
+	from(select to_date(#{ sc_date_str }, 'YYYY-MM-DD') AS sc_date from dual)
+</select>
+
+<select id="selectScDate2" resultType="reservationScreeningInfoDomain" parameterType="reservationScreeningInfoVO">
+	select distinct sc_date
+	from screening_info
+	where sc_date=to_date(#{ sc_date_str }, 'YYYY.MM.DD(dy)')
+</select>
+
+<select id="selectMovieNum" resultType="int" parameterType="reservationScreeningInfoVO">
+	select movie_num
+	from movie
+	where title_k = #{ title_k }
+</select>
+
+<select id="selectThInfo" 
+resultType="reservationScreeningInfoDomain" 
+parameterType="ReservationScreeningInfoVO">
+	select distinct th_num, m.title_k
+	from screening_info sc, movie m
+	where sc.movie_num=(select movie_num
+	from movie
+	where title_k = #{ title_k }) and title_k = #{ title_k }
+	order by th_num
+</select>
+
+<select id="selectScreenInfo" 
+resultType="reservationScreeningInfoDomain" 
+parameterType="ReservationScreeningInfoVO">
+	select sc_num, th_num, sc_date,
+	to_char(sc_time, 'HH24:MI') as sc_time_str, 
+	to_char(sc_end_time, 'HH24:MI') as sc_end_time_str,
+	(th_total_seat - people) as total_seat,
+	category
+	from (select sc.sc_num, sc.th_num, sc.movie_num, sc_date, sc_time, sc_end_time,
+			th_total_seat, nvl(people, 0) as people,
+			category
+			from	screening_info sc, th_seat th, theater, reservation re
+			where	sc.th_num = th.th_num(+) and th.th_num = theater.th_num(+) and sc.sc_num = re.sc_num(+))
+	where movie_num=#{ movie_num }
+	and sc_date=#{ sc_date }
+	order by sc_num
+</select>
+
+</mapper>
